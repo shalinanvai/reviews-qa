@@ -27,9 +27,14 @@ openai_api_key = os.environ["OPENAI_API_KEY"]
 OPENAI_API_KEY = openai_api_key
 
 # Ask the user for a question via `st.text_area`.
-num_asins = st.text_area(
-    "How many ASINs to use?",
+num_asins_load = st.text_area(
+    "How many ASINs to load from the index? (This should be between 10 and 100. This will affect processing speed.)",
 )
+
+num_asins_retrieve = st.text_area(
+    "How many ASINs to retrieve per query? (This should be between 1 and 20. This will affect processing speed.)",
+)
+
 
 queries = []
 # Ask the user for a question viaß `st.text_area`.
@@ -39,7 +44,7 @@ question = st.text_area(
 
 queries.append(question)
 
-if num_asins and question:
+if num_asins_load and num_asins_retrieve and question:
     __import__('pysqlite3')
     import sys
     sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
@@ -82,7 +87,7 @@ if num_asins and question:
             one_document_text = one_document_text + val + "\n\n"
         docs[key] = one_document_text
         count+=1
-        if count > int(num_asins):
+        if count > int(num_asins_load):
             break
 
     from langchain_experimental.text_splitter import SemanticChunker
@@ -117,8 +122,8 @@ if num_asins and question:
 
     import chromadb
     chroma_client = chromadb.Client()
-    collection = chroma_client.get_or_create_collection(name="review_titles_new_250")
-    collection.add(
+    collection_titles = chroma_client.get_or_create_collection(name="review_titles_new_250")
+    collection_titles.add(
         documents=titles,
         ids=[str(hash(t)) for t in titles]
     )
@@ -368,9 +373,9 @@ if num_asins and question:
 
     res_str = ""
     for val in queries:
-        results = collection.query(
+        results = collection_titles.query(
             query_texts=[val], # Chroma will embed this for you
-            n_results=5 # how many results to return
+            n_results=int(num_asins_retrieve) # how many results to return
         )
 
         titles = []
