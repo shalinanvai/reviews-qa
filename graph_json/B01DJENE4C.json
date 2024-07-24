@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Vitamin D level", "CONNECTION": "increased", "ENTITY_2": "after taking product"}, {"ENTITY_1": "Vitamin D level", "CONNECTION": "was low", "ENTITY_2": "prior to taking product"}, {"ENTITY_1": "Dr. Store", "CONNECTION": "known for", "ENTITY_2": "purity of products"}, {"ENTITY_1": "Dr. Store", "CONNECTION": "best vitamins", "ENTITY_2": "have"}]

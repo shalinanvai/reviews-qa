@@ -41,7 +41,7 @@ queries = []
 # Ask the user for a question viaß `st.text_area`.
 question = st.text_area(
     "Now ask a question!  \ne.g. What are various pill organizers that users recommend?  \ne.g. Based on the reviews, what brain supplements do you recommend?  \ne.g. What are the benefits of taking vitamin supplements?  \ne.g. What are some positive reviews on brain supplements?  \ne.g. What do the reviews say about the benefits of taking Zinc supplements?  \ne.g. What are the vitamin supplements which have a 5 rating?",
-    value="Based on the reviews, what brain supplements do you recommend?"
+    value="What are the benefits of taking vitamin supplements?"
 )
 
 queries.append(question)

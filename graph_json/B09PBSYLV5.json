@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Pill Cutter", "CONNECTION": "crushes", "ENTITY_2": "medication"}, {"ENTITY_1": "Pill Cutter", "CONNECTION": "difficult to open", "ENTITY_2": "users"}, {"ENTITY_1": "Pill Cutter", "CONNECTION": "useless", "ENTITY_2": "cutting pills"}, {"ENTITY_1": "Pill Cutter", "CONNECTION": "makes a mess", "ENTITY_2": "splitting pills"}]

@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Apple Cider Vinegar Capsules", "CONNECTION": "made by", "ENTITY_2": "reputable company"}, {"ENTITY_1": "reputable company", "CONNECTION": "makes", "ENTITY_2": "Apple Cider Vinegar Capsules"}, {"ENTITY_1": "husband", "CONNECTION": "takes", "ENTITY_2": "capsule"}, {"ENTITY_1": "capsule", "CONNECTION": "taken by", "ENTITY_2": "husband"}]

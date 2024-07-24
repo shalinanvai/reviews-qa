@@ -1,0 +1,1 @@
+[{"ENTITY_1": "User", "CONNECTION": "rated", "ENTITY_2": "Vega Plant-Based Drinkable Vitamins Drink Mix"}, {"ENTITY_1": "Vega Plant-Based Drinkable Vitamins Drink Mix", "CONNECTION": "has", "ENTITY_2": "20 Little Pouches"}, {"ENTITY_1": "Vega Plant-Based Drinkable Vitamins Drink Mix", "CONNECTION": "flavor", "ENTITY_2": "Grapefruit Orange"}]

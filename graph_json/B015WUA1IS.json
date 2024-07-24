@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Nature's Bounty Calcium", "CONNECTION": "has", "ENTITY_2": "Vitamin D3"}, {"ENTITY_1": "Vitamin D3", "CONNECTION": "is in", "ENTITY_2": "Softgels"}, {"ENTITY_1": "Softgels", "CONNECTION": "come in", "ENTITY_2": "pack of 3"}]

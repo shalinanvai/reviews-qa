@@ -1,0 +1,1 @@
+[{"ENTITY_1": "bag", "CONNECTION": "is", "ENTITY_2": "small"}, {"ENTITY_1": "bag", "CONNECTION": "worth", "ENTITY_2": "32 dollars"}, {"ENTITY_1": "User", "CONNECTION": "rated", "ENTITY_2": "1.0 out of 5"}, {"ENTITY_1": "Item", "CONNECTION": "is titled", "ENTITY_2": "Get Wavy Organics Irish Sea Moss"}, {"ENTITY_1": "Item", "CONNECTION": "is", "ENTITY_2": "Vegan"}]

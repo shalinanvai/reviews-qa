@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Probiotic Gummy Advance", "CONNECTION": "contains", "ENTITY_2": "Prebiotic Fiber"}, {"ENTITY_1": "Prebiotic Fiber", "CONNECTION": "causes", "ENTITY_2": "stomach discomfort"}, {"ENTITY_1": "Probiotic Gummy Advance", "CONNECTION": "helps", "ENTITY_2": "constipation"}]

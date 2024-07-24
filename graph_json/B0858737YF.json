@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Newtrition Omega-3 & Vitamin D3 Bundle", "CONNECTION": "contains", "ENTITY_2": "CARDIO3 + BONESD3"}, {"ENTITY_1": "CARDIO3 + BONESD3", "CONNECTION": "is a", "ENTITY_2": "supplement"}, {"ENTITY_1": "supplement", "CONNECTION": "supports", "ENTITY_2": "Heart, Bone, Immune System"}]

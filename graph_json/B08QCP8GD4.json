@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Penguin Pill Box Medicine Case", "CONNECTION": "has", "ENTITY_2": "3 storage compartment"}, {"ENTITY_1": "3 storage compartment", "CONNECTION": "can coordinate and separate", "ENTITY_2": "as needed"}, {"ENTITY_1": "Penguin Pill Box Medicine Case", "CONNECTION": "liked", "ENTITY_2": "a lot"}, {"ENTITY_1": "liked", "CONNECTION": "very good", "ENTITY_2": "it"}]

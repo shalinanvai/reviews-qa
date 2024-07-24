@@ -1,0 +1,1 @@
+[{"ENTITY_1": "India", "CONNECTION": "has", "ENTITY_2": "Neem"}, {"ENTITY_1": "Neem", "CONNECTION": "is", "ENTITY_2": "common"}, {"ENTITY_1": "Neem", "CONNECTION": "used in", "ENTITY_2": "hair mask"}, {"ENTITY_1": "Neem", "CONNECTION": "used in", "ENTITY_2": "face mask"}, {"ENTITY_1": "Neem", "CONNECTION": "added to", "ENTITY_2": "juice"}]

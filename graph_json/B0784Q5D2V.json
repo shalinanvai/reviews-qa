@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Mother", "CONNECTION": "experienced", "ENTITY_2": "high blood pressure"}, {"ENTITY_1": "Mother", "CONNECTION": "affected by", "ENTITY_2": "bad supplement"}, {"ENTITY_1": "Mother", "CONNECTION": "will not buy", "ENTITY_2": "Vitamin K2 product"}, {"ENTITY_1": "Vitamin K2 product", "CONNECTION": "caused", "ENTITY_2": "high blood pressure"}]

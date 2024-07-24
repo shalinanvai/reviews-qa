@@ -1,0 +1,1 @@
+[{"ENTITY_1": "I", "CONNECTION": "take", "ENTITY_2": "Apple Cider Vinegar Gummies"}, {"ENTITY_1": "I", "CONNECTION": "don't have", "ENTITY_2": "cravings"}, {"ENTITY_1": "I", "CONNECTION": "love", "ENTITY_2": "chocolate"}, {"ENTITY_1": "I", "CONNECTION": "haven't had", "ENTITY_2": "chocolate"}, {"ENTITY_1": "chocolate", "CONNECTION": "is good for", "ENTITY_2": "me"}]

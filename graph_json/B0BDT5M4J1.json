@@ -1,0 +1,1 @@
+[{"ENTITY_1": "AGIWRDNKZTVYLM25URVWYPUIIJUA", "CONNECTION": "received", "ENTITY_2": "part of the order"}, {"ENTITY_1": "part of the order", "CONNECTION": "was received by", "ENTITY_2": "AGIWRDNKZTVYLM25URVWYPUIIJUA"}, {"ENTITY_1": "AHS4IBEEIQLOUKXS4YQUDYPTXZUQ", "CONNECTION": "received", "ENTITY_2": "Cuality"}]

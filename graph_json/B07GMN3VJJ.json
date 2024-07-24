@@ -1,0 +1,1 @@
+[{"ENTITY_1": "AHG5C4RNOQZ42K2CANAZJMUWPG2Q", "CONNECTION": "reviewed", "ENTITY_2": "Pill Case"}, {"ENTITY_1": "Pill Case", "CONNECTION": "has", "ENTITY_2": "8 Compartments"}, {"ENTITY_1": "Pill Case", "CONNECTION": "is", "ENTITY_2": "Portable"}, {"ENTITY_1": "Pill Case", "CONNECTION": "is", "ENTITY_2": "Black"}]

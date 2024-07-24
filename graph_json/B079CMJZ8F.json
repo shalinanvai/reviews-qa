@@ -1,0 +1,1 @@
+[{"ENTITY_1": "item", "CONNECTION": "received", "ENTITY_2": "late"}, {"ENTITY_1": "socks and gloves", "CONNECTION": "used", "ENTITY_2": "buyer"}, {"ENTITY_1": "dirt spots", "CONNECTION": "visible", "ENTITY_2": "socks and gloves"}, {"ENTITY_1": "scent", "CONNECTION": "overwhelming", "ENTITY_2": "flowery"}]

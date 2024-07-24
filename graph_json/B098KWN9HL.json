@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Grow Girl", "CONNECTION": "has", "ENTITY_2": "Hair Vitamins"}, {"ENTITY_1": "Hair Vitamins", "CONNECTION": "contains", "ENTITY_2": "Folic Acid"}, {"ENTITY_1": "Hair Vitamins", "CONNECTION": "contains", "ENTITY_2": "Vitamin E"}]

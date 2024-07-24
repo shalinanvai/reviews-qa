@@ -1,0 +1,1 @@
+[{"ENTITY_1": "products", "CONNECTION": "helped", "ENTITY_2": "thyroid"}, {"ENTITY_1": "products", "CONNECTION": "increased", "ENTITY_2": "energy levels"}, {"ENTITY_1": "products", "CONNECTION": "worked", "ENTITY_2": "best"}, {"ENTITY_1": "difference", "CONNECTION": "seen", "ENTITY_2": "not"}, {"ENTITY_1": "difference", "CONNECTION": "told", "ENTITY_2": "nothing bad"}]

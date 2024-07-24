@@ -1,0 +1,1 @@
+[{"ENTITY_1": "son", "CONNECTION": "grown", "ENTITY_2": "clothing size"}, {"ENTITY_1": "son", "CONNECTION": "grown", "ENTITY_2": "taller"}, {"ENTITY_1": "son", "CONNECTION": "taking", "ENTITY_2": "vitamins"}, {"ENTITY_1": "vitamins", "CONNECTION": "sold out", "ENTITY_2": "restock"}, {"ENTITY_1": "kids", "CONNECTION": "didn't like", "ENTITY_2": "taste"}]

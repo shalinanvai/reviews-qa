@@ -1,0 +1,1 @@
+[{"ENTITY_1": "I", "CONNECTION": "take", "ENTITY_2": "Bio-Tech K1-1000"}, {"ENTITY_1": "Bio-Tech K1-1000", "CONNECTION": "is", "ENTITY_2": "important"}, {"ENTITY_1": "larger doses", "CONNECTION": "need", "ENTITY_2": "beginning"}, {"ENTITY_1": "beginning", "CONNECTION": "reduce", "ENTITY_2": "doses"}, {"ENTITY_1": "K2", "CONNECTION": "is", "ENTITY_2": "important"}]

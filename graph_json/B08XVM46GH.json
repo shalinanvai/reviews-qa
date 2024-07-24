@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Pill boxes", "CONNECTION": "hold", "ENTITY_2": "full day of vitamins"}, {"ENTITY_1": "Pill boxes", "CONNECTION": "never accidentally opens", "ENTITY_2": "purse"}, {"ENTITY_1": "one of eight", "CONNECTION": "defective", "ENTITY_2": "won't close"}]

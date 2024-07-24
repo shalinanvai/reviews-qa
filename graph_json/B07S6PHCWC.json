@@ -1,0 +1,1 @@
+[{"ENTITY_1": "CHINA", "CONNECTION": "has ingredients in", "ENTITY_2": "products"}, {"ENTITY_1": "Vitamin C", "CONNECTION": "is in", "ENTITY_2": "product"}, {"ENTITY_1": "product", "CONNECTION": "was", "ENTITY_2": "returned"}, {"ENTITY_1": "product", "CONNECTION": "contains", "ENTITY_2": "sodium water"}, {"ENTITY_1": "product", "CONNECTION": "is", "ENTITY_2": "nasty"}]

@@ -1,0 +1,1 @@
+[{"ENTITY_1": "doctor", "CONNECTION": "recommended", "ENTITY_2": "PUREMEDICS Calcium Citrate"}, {"ENTITY_1": "doctor", "CONNECTION": "recommended", "ENTITY_2": "best absorbed"}, {"ENTITY_1": "osteoporosis", "CONNECTION": "reversed", "ENTITY_2": "deficit"}]

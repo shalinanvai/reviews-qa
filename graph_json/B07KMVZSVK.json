@@ -1,0 +1,1 @@
+[{"ENTITY_1": "AE7ZKEE6TZUDLJ3444U7HUOHS4AQ", "CONNECTION": "reviewed", "ENTITY_2": "B07KMVZSVK"}, {"ENTITY_1": "B07KMVZSVK", "CONNECTION": "has", "ENTITY_2": "Rating 5.0"}, {"ENTITY_1": "B07KMVZSVK", "CONNECTION": "has", "ENTITY_2": "Portable 7 Day Weekly Pill Organizer"}, {"ENTITY_1": "Portable 7 Day Weekly Pill Organizer", "CONNECTION": "includes", "ENTITY_2": "Travel Case"}]

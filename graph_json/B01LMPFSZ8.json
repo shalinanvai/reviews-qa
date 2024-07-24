@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Vitamin Shoppe", "CONNECTION": "sells", "ENTITY_2": "Heart Choice Plant Sterols"}, {"ENTITY_1": "Heart Choice Plant Sterols", "CONNECTION": "sold by", "ENTITY_2": "Vitamin Shoppe"}]

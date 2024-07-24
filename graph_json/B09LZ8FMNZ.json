@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Scalp Delivery", "CONNECTION": "supports", "ENTITY_2": "Hair, Skin, Nail Growth"}, {"ENTITY_1": "Hair Gummies", "CONNECTION": "grows", "ENTITY_2": "Hair, Nails"}, {"ENTITY_1": "Hair Gummies", "CONNECTION": "works", "ENTITY_2": "Great"}]
