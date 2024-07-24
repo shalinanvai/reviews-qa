@@ -88,9 +88,8 @@ text_splitter = SemanticChunker(OpenAIEmbeddings())
 from langchain_community.document_loaders import TextLoader
 from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import CharacterTextSplitter
-from langchain_chroma import Chroma
-db_chroma = Chroma.from_documents(docs.values(), OpenAIEmbeddings())
-
+from langchain_community.vectorstores import FAISS
+db_chroma = FAISS.from_documents(docs.values(), OpenAIEmbeddings())
 
 """
 for key in docs.keys():
