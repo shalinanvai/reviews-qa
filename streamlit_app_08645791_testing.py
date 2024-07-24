@@ -17,8 +17,8 @@ from llama_index.core.schema import QueryBundle, NodeWithScore
 from typing import List
 
 # Show title and description.
-st.title("Amazon Reviews Graph Question Answering")
-st.write("Enter the question about reviews on Amazon.com in the health care category. e.g. What do users think of electric shavers?")
+st.title("Amazon Reviews Graph Question Answering (Health Supplements)")
+st.write("Enter the question about reviews on Amazon.com in the health supplements category.  \ne.g. What are the benefits of taking vitamin supplements?")
 # Ask user for their OpenAI API key via `st.text_input`.
 # Alternatively, you can store the API key in `./.streamlit/secrets.toml` and access it
 # via `st.secrets`, see https://docs.streamlit.io/develop/concepts/connections/secrets-management
