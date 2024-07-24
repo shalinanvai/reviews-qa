@@ -40,7 +40,7 @@ num_asins_retrieve = st.text_area(
 queries = []
 # Ask the user for a question viaß `st.text_area`.
 question = st.text_area(
-    "Now ask a question! e.g. What are the benefits of taking dietary supplements? e.g. What are some positive reviews on brain supplements?\ne.g. What do the reviews say about the benefits of taking Zinc supplements?\ne.g. What are the vitamin supplements which have a 5 rating?\ne.g. What  are the various multivitamins mentioned in the reviews?",
+    "Now ask a question! e.g. What are the benefits of taking dietary supplements? e.g. What are some positive reviews on brain supplements?\ne.g. What do the reviews say about the benefits of taking Zinc supplements?\ne.g. What are the vitamin supplements which have a 5 rating?",
     value="Based on the reviews, what brain supplements do you recommend?"
 )
 
