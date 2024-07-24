@@ -128,119 +128,119 @@ if num_asins and question:
     from langchain.schema import HumanMessage, SystemMessage
 
     def completion(prompt: str, model_name: str) -> str:
-    chat = ChatOpenAI(temperature=0, model_name=model_name, openai_api_key=OPENAI_API_KEY)
-    messages = [
-        HumanMessage(
-            content=prompt
-        )
-    ]
-    return chat(messages).content
+        chat = ChatOpenAI(temperature=0, model_name=model_name, openai_api_key=OPENAI_API_KEY)
+        messages = [
+            HumanMessage(
+                content=prompt
+            )
+        ]
+        return chat(messages).content
 
     def create_entire_prompt_three_step(system, text):
-    three_step_prompt_env = os.environ["THREE_STEP"]
-    prompt = f"""
-    System: {system}
+        three_step_prompt_env = os.environ["THREE_STEP"]
+        prompt = f"""
+        System: {system}
 
-    User:
-    --- Context Begin ---
-    {text}
-    --- Context End ---
+        User:
+        --- Context Begin ---
+        {text}
+        --- Context End ---
 
-    --- Instructions Begin ---
-    Your task is to generate important connections between entities (facts) from the context and title above.\n
-    Please use a six step process:\n
+        --- Instructions Begin ---
+        Your task is to generate important connections between entities (facts) from the context and title above.\n
+        Please use a six step process:\n
 
-    {three_step_prompt_env}
+        {three_step_prompt_env}
 
-    Pay special attention to verbs like "increased", "decreased", "profit", "loss" etc. These verbs are important to get a summary of how the company is doing in the market.\n
+        Pay special attention to verbs like "increased", "decreased", "profit", "loss" etc. These verbs are important to get a summary of how the company is doing in the market.\n
 
-    Please output entities in both directions e.g. if the connection is (Microsoft, invested, 10B in the AI field), please output the connection in the other direction as well e.g. (10B in the AI field, was invested by, Microsoft)\n\n
+        Please output entities in both directions e.g. if the connection is (Microsoft, invested, 10B in the AI field), please output the connection in the other direction as well e.g. (10B in the AI field, was invested by, Microsoft)\n\n
 
-    The task is to generate important facts that the context mentions in JSON format of the form of \n
-    [{{"ENTITY_1":"entity_1", "CONNECTION": "connection_type", "ENTITY_2" : "entity_2" }}, {{"ENTITY_2" : "entity_1", "CONNECTION": "connection_type", "ENTITY_2" : "entity_2" }}, {{"ENTITY_1" : "entity_1", "CONNECTION": "connection_type", "ENTITY_2" : "entity_2"}} and so on for all entity connections....\n
-    The entities (entity_1, entity_2) and the fact (connection_type) should be summarized to 1, 2 or 3 words using abstractive summarization.\n
-    For example, (Walmart, revenue, 10B) or (Target, established, 1954) or (Diwali, celebrated by, Hindus).\n
-    Please extract a minimum of 10 facts and connections and a maximum of the top 50 facts and connections from the context.\n
-    Take a deep breath, and think step by step, read the full context and title, but do not return the thought process in the summary.\n
-    The entities (entity_1, entity_2) and the fact (connection_type) should be summarized to 1, 2 or 3 words using abstractive summarization.\n
-    Don't include generalist connection_type values, please be as specific as possible. For example, if the extracted connection_type is 'role', use the actual value of the role, like president, vice president, engineer etc.\n
-    Also, don't omit the actual numbers from the entities. For example, if the extracted connection_type is 'market share', include the actual market share, like 25%, increasing, decreasing etc.\n
-    Please make sure that the entities are one to four words in length. If necessary, please use abstractive summarization to reduce the length of the entities.\n
-    Also, if the entity is a common noun, like viewership, please make sure to include the proper noun in ENTITY_1 or ENTITY_2. For example, if the connection is viewership, you should include the propernoun such as Netflix. So, the entity would be "Netflix Viewership" instead of just "Viewership".\n
-    The ENTITY_1, CONNECTION and ENTITY_2 should be self-contained and it should be able to understand the context of the connection without reading the context.\n
-    Please make sure that ENTITY_1 and ENTITY_2 are independent single entities. For example do not use "and" to include two entities as a single entity. e.g. (Microsoft and Google, invested in, Artificial Intelligence) should be (Microsoft, invested in, Artificial Intelligence) and (Google, invested in, Artificial Intelligence)\n
-    Please ensure that the output is formatted as valid JSON. Please use double quotes in the JSON output.\n
-    Please make sure that you produce output. An empty output is not acceptable.\n
-    --- Instructions End ---
+        The task is to generate important facts that the context mentions in JSON format of the form of \n
+        [{{"ENTITY_1":"entity_1", "CONNECTION": "connection_type", "ENTITY_2" : "entity_2" }}, {{"ENTITY_2" : "entity_1", "CONNECTION": "connection_type", "ENTITY_2" : "entity_2" }}, {{"ENTITY_1" : "entity_1", "CONNECTION": "connection_type", "ENTITY_2" : "entity_2"}} and so on for all entity connections....\n
+        The entities (entity_1, entity_2) and the fact (connection_type) should be summarized to 1, 2 or 3 words using abstractive summarization.\n
+        For example, (Walmart, revenue, 10B) or (Target, established, 1954) or (Diwali, celebrated by, Hindus).\n
+        Please extract a minimum of 10 facts and connections and a maximum of the top 50 facts and connections from the context.\n
+        Take a deep breath, and think step by step, read the full context and title, but do not return the thought process in the summary.\n
+        The entities (entity_1, entity_2) and the fact (connection_type) should be summarized to 1, 2 or 3 words using abstractive summarization.\n
+        Don't include generalist connection_type values, please be as specific as possible. For example, if the extracted connection_type is 'role', use the actual value of the role, like president, vice president, engineer etc.\n
+        Also, don't omit the actual numbers from the entities. For example, if the extracted connection_type is 'market share', include the actual market share, like 25%, increasing, decreasing etc.\n
+        Please make sure that the entities are one to four words in length. If necessary, please use abstractive summarization to reduce the length of the entities.\n
+        Also, if the entity is a common noun, like viewership, please make sure to include the proper noun in ENTITY_1 or ENTITY_2. For example, if the connection is viewership, you should include the propernoun such as Netflix. So, the entity would be "Netflix Viewership" instead of just "Viewership".\n
+        The ENTITY_1, CONNECTION and ENTITY_2 should be self-contained and it should be able to understand the context of the connection without reading the context.\n
+        Please make sure that ENTITY_1 and ENTITY_2 are independent single entities. For example do not use "and" to include two entities as a single entity. e.g. (Microsoft and Google, invested in, Artificial Intelligence) should be (Microsoft, invested in, Artificial Intelligence) and (Google, invested in, Artificial Intelligence)\n
+        Please ensure that the output is formatted as valid JSON. Please use double quotes in the JSON output.\n
+        Please make sure that you produce output. An empty output is not acceptable.\n
+        --- Instructions End ---
 
-    Assistant:
-    """
-    return prompt
+        Assistant:
+        """
+        return prompt
 
     def get_system_message():
-    return """You are an expert at finding named entities and the connections (facts) between them to generate a knowledge graph from text (in JSON format).\n
-    The task is to generate important facts that the context mentions in JSON format of the form of \n
-    [{{"ENTITY_1":"entity_1", "CONNECTION": "connection_type", "ENTITY_2" : "entity_2" }}, {{"ENTITY_2" : "entity_1", "CONNECTION": "connection_type", "ENTITY_2" : "entity_2" }}, {{"ENTITY_1" : "entity_1", "CONNECTION": "connection_type", "ENTITY_2" : "entity_2"}} and so on for all entity connections....\n
-    Please output entities in both directions e.g. if the connection is (Microsoft, invested, 10B in the AI field), please output the connection in the other direction as well e.g. (10B in the AI field, was invested by, Microsoft)\n
-    Please make sure that the entities are one to four words in length. If necessary, please use abstractive summarization to reduce the length of the entities.\n
-    Please extract a minimum of 10 facts and connections and a maximum of the top 50 facts and connections from the context.\n
-    Please make sure that ENTITY_1 and ENTITY_2 are independed single entities. For example do not use "and" to include two entities as a single entity. e.g. (Microsoft and Google, invested in, Artificial Intelligence) should be (Microsoft, invested in, Artificial Intelligence) and (Google, invested in, Artificial Intelligence)\n
-    Don't include generalist connection_type values, please be as specific as possible. For example, if the extracted connection_type is 'role', use the actual value of the role, like president, vice president, engineer etc.\n
-    Also, don't omit the actual numbers from the entities. For example, if the extracted connection_type is 'market share', include the actual market share, like 25%, increasing, decreasing etc.\n\n
-    Pay special attention to years and dates. e.g. if the sentence is "Apple invested 10 million in generative AI in 2024", then include the 2024 in the edge (connection) or the entities.\n
-    Please pay special attention to the tense. For example, there is a difference between the connection_type "had invested" and "invested".\n
-    Pay special attention to verbs like "increased", "decreased", "profit", "loss" etc. These verbs are important to get a summary of how the company is doing in the market.\n
-    Please make sure that there are no duplicate edges and connections. If there are duplicates, please remove the duplicates.\n
-    Please make sure that the output is formatted as valid JSON. Please use double quotes in the JSON output.\n"""
+        return """You are an expert at finding named entities and the connections (facts) between them to generate a knowledge graph from text (in JSON format).\n
+        The task is to generate important facts that the context mentions in JSON format of the form of \n
+        [{{"ENTITY_1":"entity_1", "CONNECTION": "connection_type", "ENTITY_2" : "entity_2" }}, {{"ENTITY_2" : "entity_1", "CONNECTION": "connection_type", "ENTITY_2" : "entity_2" }}, {{"ENTITY_1" : "entity_1", "CONNECTION": "connection_type", "ENTITY_2" : "entity_2"}} and so on for all entity connections....\n
+        Please output entities in both directions e.g. if the connection is (Microsoft, invested, 10B in the AI field), please output the connection in the other direction as well e.g. (10B in the AI field, was invested by, Microsoft)\n
+        Please make sure that the entities are one to four words in length. If necessary, please use abstractive summarization to reduce the length of the entities.\n
+        Please extract a minimum of 10 facts and connections and a maximum of the top 50 facts and connections from the context.\n
+        Please make sure that ENTITY_1 and ENTITY_2 are independed single entities. For example do not use "and" to include two entities as a single entity. e.g. (Microsoft and Google, invested in, Artificial Intelligence) should be (Microsoft, invested in, Artificial Intelligence) and (Google, invested in, Artificial Intelligence)\n
+        Don't include generalist connection_type values, please be as specific as possible. For example, if the extracted connection_type is 'role', use the actual value of the role, like president, vice president, engineer etc.\n
+        Also, don't omit the actual numbers from the entities. For example, if the extracted connection_type is 'market share', include the actual market share, like 25%, increasing, decreasing etc.\n\n
+        Pay special attention to years and dates. e.g. if the sentence is "Apple invested 10 million in generative AI in 2024", then include the 2024 in the edge (connection) or the entities.\n
+        Please pay special attention to the tense. For example, there is a difference between the connection_type "had invested" and "invested".\n
+        Pay special attention to verbs like "increased", "decreased", "profit", "loss" etc. These verbs are important to get a summary of how the company is doing in the market.\n
+        Please make sure that there are no duplicate edges and connections. If there are duplicates, please remove the duplicates.\n
+        Please make sure that the output is formatted as valid JSON. Please use double quotes in the JSON output.\n"""
 
     def get_query_prompt(query, rag_text, vector_text):
-    return f"""
+        return f"""
 
-    --- Vector Index Retrieved Document Chunks Begin ---
-    {vector_text}
-    --- Vector Index Retrieved Document Chunks End ---\n\n
+        --- Vector Index Retrieved Document Chunks Begin ---
+        {vector_text}
+        --- Vector Index Retrieved Document Chunks End ---\n\n
 
-    --- Document Context Begin ---
-    {rag_text}\n
-    --- Document Context End ---\n\n
+        --- Document Context Begin ---
+        {rag_text}\n
+        --- Document Context End ---\n\n
 
-    --- Query Begin ---\n
-    {query}\n
-    --- Query End ---\n\n
+        --- Query Begin ---\n
+        {query}\n
+        --- Query End ---\n\n
 
-    --- Instructions Begin ---
-    Please answer the query above using the context provided above.\n
-    Please be very verbose in the answers.\n
-    Pay special attention to the surrounding text to see if the numbers are stock prices, revenues.\n
-    Please distinguish between the revenue and stock prices. For instance $ 10B might be a revenue while $ 500 might be a stock price.\n
-    Don't get confused between revenue, stock prices, profit and income.\n
-    Pay special attention to the descriptions of the numbers in the surrounding text.\n
-    Generate a verbose answer to the query above.\n
-    Take a deep breath, think step by step but don't answer the thought process.\n
-    Go deep into the text and the triples, and reflect on the answers for accuracy.\n
-    Reply only with the answer to the query. Don't output anything else.\n
-    Feel free to say that the report does not include information to answer the query.\n
-    Please do not output the source of the information, like the knowledge graph triples or the document.\n
-    Please keep in mind that the reader of the output is an investment analyst.\n
-    --- Instructions End ---
-    """
+        --- Instructions Begin ---
+        Please answer the query above using the context provided above.\n
+        Please be very verbose in the answers.\n
+        Pay special attention to the surrounding text to see if the numbers are stock prices, revenues.\n
+        Please distinguish between the revenue and stock prices. For instance $ 10B might be a revenue while $ 500 might be a stock price.\n
+        Don't get confused between revenue, stock prices, profit and income.\n
+        Pay special attention to the descriptions of the numbers in the surrounding text.\n
+        Generate a verbose answer to the query above.\n
+        Take a deep breath, think step by step but don't answer the thought process.\n
+        Go deep into the text and the triples, and reflect on the answers for accuracy.\n
+        Reply only with the answer to the query. Don't output anything else.\n
+        Feel free to say that the report does not include information to answer the query.\n
+        Please do not output the source of the information, like the knowledge graph triples or the document.\n
+        Please keep in mind that the reader of the output is an investment analyst.\n
+        --- Instructions End ---
+        """
     def get_query_system_prompt():
-    return """
-    You are an expert question answering system. You use the knowledge graph triples as context and answer the questions in a verbose manner.\n
-    Please be very verbose in the answers.\n
-    Pay special attention to the surrounding text to see if the numbers are stock prices, revenues.\n
-    Please distinguish between the revenue and stock prices. For instance $ 10B might be a revenue while $ 500 might be a stock price.\n
-    e.g. $125 is a stock price. $10B is revenue, profit or income. $100,000M is revenue, profit or income.\n
-    e.g. $350 is a stock price. $100 B is revenue, profit or income. $250,000 M is revenue, profit or income.\n
-    Pay special attention to the descriptions of the numbers in the surrounding text.\n
-    Generate a verbose answer to the query above.\n
-    Take a deep breath, think step by step but don't answer the thought process.\n
-    Go deep into the text and the triples, and reflect on the answers for accuracy.\n
-    Reply only with the answer to the query. Don't output anything else.\n
-    Feel free to say that the report does not include information to answer the query.\n
-    Please do not output the source of the information, like the knowledge graph triples or the document.\n
-    Please keep in mind that the reader of the output is an investment analyst.\n
-    """
+        return """
+        You are an expert question answering system. You use the knowledge graph triples as context and answer the questions in a verbose manner.\n
+        Please be very verbose in the answers.\n
+        Pay special attention to the surrounding text to see if the numbers are stock prices, revenues.\n
+        Please distinguish between the revenue and stock prices. For instance $ 10B might be a revenue while $ 500 might be a stock price.\n
+        e.g. $125 is a stock price. $10B is revenue, profit or income. $100,000M is revenue, profit or income.\n
+        e.g. $350 is a stock price. $100 B is revenue, profit or income. $250,000 M is revenue, profit or income.\n
+        Pay special attention to the descriptions of the numbers in the surrounding text.\n
+        Generate a verbose answer to the query above.\n
+        Take a deep breath, think step by step but don't answer the thought process.\n
+        Go deep into the text and the triples, and reflect on the answers for accuracy.\n
+        Reply only with the answer to the query. Don't output anything else.\n
+        Feel free to say that the report does not include information to answer the query.\n
+        Please do not output the source of the information, like the knowledge graph triples or the document.\n
+        Please keep in mind that the reader of the output is an investment analyst.\n
+        """
 
     model_test_1 = 'ft:gpt-3.5-turbo-0125:anvai-ai::9SBH6Gog'
     model_test_2 = 'ft:gpt-3.5-turbo-0125:anvai-ai::9UjMtBU8'
@@ -254,21 +254,21 @@ if num_asins and question:
     system_message = get_system_message()
 
     def create_kg(docs):
-    entire_json_key = []
-    count = 0
-    count+=1
-    text = docs
-    entire_prompt_three_step = create_entire_prompt_three_step(system_message, text)
-    completed_text_fine_tuned_model = completion(entire_prompt_three_step, model_test_2)
-    print(count)
-    print(completed_text_fine_tuned_model)
-    try:
-        js = json.loads(completed_text_fine_tuned_model)
-        entire_json_key.extend(js)
-    except:
-        print("Could not load json from this chunk. Ignoring!")
+        entire_json_key = []
+        count = 0
+        count+=1
+        text = docs
+        entire_prompt_three_step = create_entire_prompt_three_step(system_message, text)
+        completed_text_fine_tuned_model = completion(entire_prompt_three_step, model_test_2)
+        print(count)
+        print(completed_text_fine_tuned_model)
+        try:
+            js = json.loads(completed_text_fine_tuned_model)
+            entire_json_key.extend(js)
+        except:
+            print("Could not load json from this chunk. Ignoring!")
 
-    return entire_json_key
+        return entire_json_key
 
     count = 0
     entire_json = dict()
