@@ -43,7 +43,7 @@ sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite3',
+        'NAME': os.path.join(".", 'db.sqlite3'),
     }
 }
 
@@ -93,7 +93,8 @@ print(num_reviews)
 import chromadb
 for key in docs.keys():
     chroma_client = chromadb.Client()
-    collection = chroma_client.get_or_create_collection(name=key)
+    chroma_client.delete_collection(key)
+    collection = chroma_client.create_collection(name=key)
     doc_texts = docs[key]
     collection.add(
         documents=[doc_texts],
@@ -113,7 +114,8 @@ with(open(file_meta, "r") as f):
 
 import chromadb
 chroma_client = chromadb.Client()
-collection = chroma_client.get_or_create_collection(name="review_titles_new_250")
+client.delete_collection("review_titles_new_250")
+collection = chroma_client.create_collection(name="review_titles_new_250")
 collection.add(
     documents=titles,
     ids=[str(hash(t)) for t in titles]
