@@ -31,88 +31,90 @@ num_asins = st.text_area(
     "How many ASINs to use?",
 )
 
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+if num_asins:
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(".", 'db.sqlite3'),
+    __import__('pysqlite3')
+    import sys
+    sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(".", 'db.sqlite3'),
+        }
     }
-}
 
-file_reviews = "Health_and_Personal_Care.jsonl"
-reviews = dict()
-already_added = set()
-with(open(file_reviews, "r") as f):
-    for val in f:
-        js = json.loads(val)
-        text = js["text"]
-        asin = js["parent_asin"]
-        title = js["title"]
-        rating = js["rating"]
-        userid = js["user_id"]
-        st1 = f"""ASIN: "{asin}", Title: "{title}", Review Text: "{text}", Rating: {rating} out of 5, User: {userid}.\n\n"""
-        if st1 not in already_added:
-            already_added.add(st1)
-            if asin in reviews:
-                reviews[asin].append(st1)
-            else:
-                l = [st1]
-                reviews[asin] = l
+    file_reviews = "Health_and_Personal_Care.jsonl"
+    reviews = dict()
+    already_added = set()
+    with(open(file_reviews, "r") as f):
+        for val in f:
+            js = json.loads(val)
+            text = js["text"]
+            asin = js["parent_asin"]
+            title = js["title"]
+            rating = js["rating"]
+            userid = js["user_id"]
+            st1 = f"""ASIN: "{asin}", Title: "{title}", Review Text: "{text}", Rating: {rating} out of 5, User: {userid}.\n\n"""
+            if st1 not in already_added:
+                already_added.add(st1)
+                if asin in reviews:
+                    reviews[asin].append(st1)
+                else:
+                    l = [st1]
+                    reviews[asin] = l
 
-docs = dict()
-count = 0
-num_reviews = 0
-for key in reviews:
-    r = reviews[key]
-    one_document_text = ""
-    for val in r:
-        num_reviews+=1
-        one_document_text = one_document_text + val + "\n\n"
-    docs[key] = one_document_text
-    count+=1
-    if count > int(num_asins):
-        break
+    docs = dict()
+    count = 0
+    num_reviews = 0
+    for key in reviews:
+        r = reviews[key]
+        one_document_text = ""
+        for val in r:
+            num_reviews+=1
+            one_document_text = one_document_text + val + "\n\n"
+        docs[key] = one_document_text
+        count+=1
+        if count > int(num_asins):
+            break
 
-from langchain_experimental.text_splitter import SemanticChunker
-from langchain_openai import OpenAIEmbeddings
-text_splitter = SemanticChunker(OpenAIEmbeddings())
+    from langchain_experimental.text_splitter import SemanticChunker
+    from langchain_openai import OpenAIEmbeddings
+    text_splitter = SemanticChunker(OpenAIEmbeddings())
 
-db_chroma = dict()
-print(len(reviews))
-print(sum([len(reviews[key]) for key in reviews]))
-print(num_reviews)
+    db_chroma = dict()
+    print(len(reviews))
+    print(sum([len(reviews[key]) for key in reviews]))
+    print(num_reviews)
 
-import chromadb
-for key in docs.keys():
+    import chromadb
+    for key in docs.keys():
+        chroma_client = chromadb.Client()
+        collection = chroma_client.get_or_create_collection(name=key)
+        doc_texts = docs[key]
+        collection.add(
+            documents=[doc_texts],
+            ids=[str(hash(t)) for t in [doc_texts]]
+        )
+        db_chroma[key] = collection
+
+    title_to_asin = dict()
+    titles = []
+    file_meta = "meta_Health_and_Personal_Care.jsonl"
+    with(open(file_meta, "r") as f):
+        for val in f:
+            js = json.loads(val)
+            if js["parent_asin"] in docs.keys():
+                titles.append(js["title"])
+                title_to_asin[js["title"]] = js["parent_asin"]
+
+    import chromadb
     chroma_client = chromadb.Client()
-    collection = chroma_client.get_or_create_collection(name=key)
-    doc_texts = docs[key]
+    collection = chroma_client.get_or_create_collection(name="review_titles_new_250")
     collection.add(
-        documents=[doc_texts],
-        ids=[str(hash(t)) for t in [doc_texts]]
+        documents=titles,
+        ids=[str(hash(t)) for t in titles]
     )
-    db_chroma[key] = collection
-
-title_to_asin = dict()
-titles = []
-file_meta = "meta_Health_and_Personal_Care.jsonl"
-with(open(file_meta, "r") as f):
-    for val in f:
-        js = json.loads(val)
-        if js["parent_asin"] in docs.keys():
-            titles.append(js["title"])
-            title_to_asin[js["title"]] = js["parent_asin"]
-
-import chromadb
-chroma_client = chromadb.Client()
-collection = chroma_client.get_or_create_collection(name="review_titles_new_250")
-collection.add(
-    documents=titles,
-    ids=[str(hash(t)) for t in titles]
-)
 
 from langchain_openai import OpenAI
 from langchain_openai import ChatOpenAI
