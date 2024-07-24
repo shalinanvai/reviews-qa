@@ -143,7 +143,7 @@ if num_asins_load and num_asins_retrieve and question:
         count+=1
 
     chroma_client = chromadb.Client()
-    collection_titles = chroma_client.create_collection(name="review_titles_new_250_0_1_3_4")
+    collection_titles = chroma_client.get_or_create_collection(name="review_titles_new_250_0_1_3_4")
     collection_titles.add(
         documents=titles,
         ids=ids
