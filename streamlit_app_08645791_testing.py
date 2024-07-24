@@ -29,12 +29,12 @@ OPENAI_API_KEY = openai_api_key
 # Ask the user for a question via `st.text_area`.
 num_asins_load = st.text_area(
     "How many ASINs to load from the index? (This should be between 10 and 1000. This will affect processing speed.)",
-    value=500,
+    value=50,
 )
 
 num_asins_retrieve = st.text_area(
     "How many ASINs to retrieve per query? (This should be between 1 and 20. This will affect processing speed.)",
-    value=25,
+    value=5,
 )
 
 queries = []
