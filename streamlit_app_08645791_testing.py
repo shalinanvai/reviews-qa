@@ -368,72 +368,72 @@ if num_asins and question:
 
     res_str = ""
     for val in queries:
-    results = collection.query(
-        query_texts=[val], # Chroma will embed this for you
-        n_results=5 # how many results to return
-    )
-
-    titles = []
-    asins = []
-    for title in results["documents"][0]:
-        if title in title_to_asin:
-            asin = title_to_asin[title]
-            if asin in entire_json:
-                asins.append(asin)
-
-    print("*********************")
-    print("Query: " + val)
-    print("")
-    count = 0
-    en_rag = dict()
-    en_vector = dict()
-
-    for en in asins:
-        q = val
-        count+=1
-        triples_str_vectors = ""
-        if en in query_engine_vectors:
-            response = query_engine_vectors[en].query(q)
-            triples_str_vectors = str(response)
-
-        en_vector[en] = triples_str_vectors
-
-        query = q
-        docs_rag = db_chroma[en].query(
-            query_texts=[q], # Chroma will embed this for you
+        results = collection.query(
+            query_texts=[val], # Chroma will embed this for you
             n_results=5 # how many results to return
         )
 
+        titles = []
+        asins = []
+        for title in results["documents"][0]:
+            if title in title_to_asin:
+                asin = title_to_asin[title]
+                if asin in entire_json:
+                    asins.append(asin)
+
+        print("*********************")
+        print("Query: " + val)
+        print("")
+        count = 0
+        en_rag = dict()
+        en_vector = dict()
+
+        for en in asins:
+            q = val
+            count+=1
+            triples_str_vectors = ""
+            if en in query_engine_vectors:
+                response = query_engine_vectors[en].query(q)
+                triples_str_vectors = str(response)
+
+            en_vector[en] = triples_str_vectors
+
+            query = q
+            docs_rag = db_chroma[en].query(
+                query_texts=[q], # Chroma will embed this for you
+                n_results=5 # how many results to return
+            )
+
+            rag_text = ""
+            for rag_doc in docs_rag["documents"][0]:
+                rag_text = rag_text + "\n\n" + rag_doc
+
+            en_rag[en] = rag_text
+
         rag_text = ""
-        for rag_doc in docs_rag["documents"][0]:
-            rag_text = rag_text + "\n\n" + rag_doc
+        vector_text = ""
+        for key in en_rag.keys():
+            rag = en_rag[key]
+            vec = en_vector[key]
+            rag_text_en = f"""The following document chunks are only for the entity {key}.\n
+            {rag}
+            """
+            rag_text = rag_text + "\n\n" + rag_text_en
 
-        en_rag[en] = rag_text
+            vector_en = f"""The following texts, extracted from a vector store, are only for the entity {key}.\n
+            {vec}
+            """
+            vector_text = vector_text + "\n\n" + vector_en
 
-    rag_text = ""
-    vector_text = ""
-    for key in en_rag.keys():
-        rag = en_rag[key]
-        vec = en_vector[key]
-        rag_text_en = f"""The following document chunks are only for the entity {key}.\n
-        {rag}
-        """
-        rag_text = rag_text + "\n\n" + rag_text_en
-
-        vector_en = f"""The following texts, extracted from a vector store, are only for the entity {key}.\n
-        {vec}
-        """
-        vector_text = vector_text + "\n\n" + vector_en
-
-    query_prompt = get_query_prompt(val, rag_text, vector_text)
-    system_prompt = get_query_system_prompt()
-    prompt = f"""System: {system_prompt}\n\nUser: {query_prompt}\n\nAssistant:\n\n"""
-    #print(prompt)
-    response_text = completion(prompt, model_gpt4o)
-    #display(Markdown(response_text))
-    print(response_text)
-    res_str = response_text
-    print("*********************")
+        query_prompt = get_query_prompt(val, rag_text, vector_text)
+        system_prompt = get_query_system_prompt()
+        prompt = f"""System: {system_prompt}\n\nUser: {query_prompt}\n\nAssistant:\n\n"""
+        #print(prompt)
+        response_text = completion(prompt, model_gpt4o)
+        #display(Markdown(response_text))
+        print(response_text)
+        res_str = response_text
+        print("*********************")
 
     # Stream the response to the app using `st.write_stream`.
     st.write(res_str)
