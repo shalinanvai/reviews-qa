@@ -23,13 +23,8 @@ st.write("Enter the question about reviews on Amazon.com in the health care cate
 # Alternatively, you can store the API key in `./.streamlit/secrets.toml` and access it
 # via `st.secrets`, see https://docs.streamlit.io/develop/concepts/connections/secrets-management
 
-openai_api_key = st.text_input("Enter OpenAI Key", type="password")
-if not openai_api_key:
-    st.info("Please add your OpenAI API key to continue.", icon="🗝️")
-else:
-    # Create an OpenAI client.
-    os.environ["OPENAI_API_KEY"] = openai_api_key
-    OPENAI_API_KEY = openai_api_key
+openai_api_key = s.environ["OPENAI_API_KEY"]
+OPENAI_API_KEY = openai_api_key
 
 # Ask the user for a question via `st.text_area`.
 num_asins = st.text_area(
@@ -133,6 +128,7 @@ def completion(prompt: str, model_name: str) -> str:
     return chat(messages).content
 
 def create_entire_prompt_three_step(system, text):
+    three_step_prompt_env = os.environ["THREE_STEP"]
     prompt = f"""
     System: {system}
 
@@ -145,16 +141,7 @@ def create_entire_prompt_three_step(system, text):
     Your task is to generate important connections between entities (facts) from the context and title above.\n
     Please use a six step process:\n
 
-    1. Use open information extraction to extract all entities and relations.\n
-    2. Create a schema for the knowledge graph, but don't output the schema. While creating a schema, keep in mind the fact that these relations will be used to construct a knowledge graph.\n
-    3. Create canonical relations - Create simplified relations and combine similar relations to the same name of the relation.\n
-    4. Disambiguate named entities - Two entitites that have a strong relation will have similar behaviors. e.g. Elon Musk and Tesla, or Bill Gates and Microsoft. Both entities should be considered a single named entity.\n
-    5. Combine behaviors. For example, if the text says "Elon Musk's Apple increased prices of iphones in China", both Elon Musk and Apple have the behavior of increasing prices of iphones and the entity should be "Elon Musk's Apple increased iphone prices".\n
-    6. Go deep into the news article and reflect on all connections between entitites. Any spurious connections should be removed.
-    7. Pay special attention to the tense of the verbs. e.g. "Apple had invested 10 billion in security stocks but sold off most of the investment". This means that a connection (Apple, invested in, security stocks) is not valid in the present. The connection should be (Apple, had invested in, security stocks).\n
-    8. When you merge connections, please make sure you remove the duplicate connections.\n\n
-    9. There should be no duplicate entities and connections. If the edges are duplicates, please remove the duplicates. Also, ensure that there are a maximum of 50 edges and connections.\n
-    10. Pay special attention to years and dates. e.g. if the sentence is "Apple invested 10 million in generative AI in 2024", then include the 2024 in the edge (connection) or the entities.\n\n
+    {three_step_prompt_env}
 
     Pay special attention to verbs like "increased", "decreased", "profit", "loss" etc. These verbs are important to get a summary of how the company is doing in the market.\n
 
@@ -202,15 +189,11 @@ def get_query_prompt(query, context, rag_text, vector_text):
 
     --- Vector Index Retrieved Document Chunks Begin ---
     {vector_text}
-    --- Vector Index Retrieved Document Chunks End ---
-
-    --- Knowledge Graph Triples Context Begin ---\n
-    {context}\n
-    --- Knowledge Graph Triples Context End ---\n\n
+    --- Vector Index Retrieved Document Chunks End ---\n\n
 
     --- Document Context Begin ---
     {rag_text}\n
-    --- Document Context End ---
+    --- Document Context End ---\n\n
 
     --- Query Begin ---\n
     {query}\n
@@ -322,94 +305,6 @@ Settings.embed_model = OpenAIEmbedding()
 import kuzu
 from llama_index.graph_stores.kuzu import KuzuGraphStore
 
-index = dict()
-for key in docs.keys():
-    try:
-        db_key = kuzu.Database("./kuzu_databases/" + key)
-        graph_store = KuzuGraphStore(db_key)
-        storage_context_key = StorageContext.from_defaults(graph_store=graph_store)
-        index_key = KnowledgeGraphIndex(
-            [],
-            storage_context=storage_context_key,
-            include_embeddings=False,
-            llm=llm_openai
-        )
-
-        index[key] = index_key
-    except:
-        print("Database storing failed for Kuzu! Ignoring.")
-
-def add_to_kg(index, js):
-    nodekeywords = dict()
-    for val in js:
-        if "ENTITY_1" not in val or "ENTITY_2" not in val or "CONNECTION" not in val:
-            continue
-
-        n1 = val["ENTITY_1"]
-        n2 = val["ENTITY_2"]
-        c = val["CONNECTION"]
-
-        if n1 == "" or n2 == "" or c == "":
-            continue
-
-        tup1 = [n1, c, n2]
-        print(tup1)
-        keywords = []
-        for val in n1.split():
-            keywords.append(val)
-
-        for val in n2.split():
-            keywords.append(val)
-
-        for val in c.split():
-            keywords.append(val)
-
-        keywords.append(n1)
-        keywords.append(n2)
-        keywords.append(c)
-
-        n1k = set()
-        if n1 in nodekeywords:
-            n1k.update(keywords)
-            n1k.update(nodekeywords[n1])
-            nodekeywords[n1] = n1k
-        else:
-            n1k.update(keywords)
-            nodekeywords[n1] = n1k
-
-        n2k = set()
-        if n2 in nodekeywords:
-            n2k.update(keywords)
-            n2k.update(nodekeywords[n2])
-            nodekeywords[n2] = n2k
-        else:
-            n2k.update(keywords)
-            nodekeywords[n2] = n2k
-
-        node1 = TextNode()
-        node1.set_content(n1)
-        index.add_node(list(n1k), node1)
-
-        node2 = TextNode()
-        node2.set_content(n2)
-        index.add_node(list(n2k), node2)
-
-        try:
-            index.upsert_triplet_and_node(tup1, node1, include_embeddings=False)
-            index.upsert_triplet_and_node(tup1, node2, include_embeddings=False)
-        except:
-            print("Error, Ignoring the triple!")
-            continue
-
-for key in index.keys():
-    index_key = index[key]
-    if key not in entire_json:
-        continue
-
-    if not os.path.exists("./kuzu_databases/" + key):
-        js = entire_json[key]
-        add_to_kg(index_key, js)
-
 doc_dict = dict()
 for key in docs.keys():
     if key not in entire_json:
@@ -451,24 +346,8 @@ for key in docs.keys():
     vector_index[key] = index_key
 
 query_engine_vectors = dict()
-query_engine_keywords = dict()
 
 for key in docs:
-    if key in index:
-        query_engine_key_keyword = index[key].as_query_engine(
-            response_mode="tree_summarize",
-            verbose=False,
-            llm=llm_openai,
-            include_text=False,
-            max_keywords_per_query=5,
-            retriever_mode="keyword", # change this to "keyword" or "hybrid" for spreadsheet querying
-            use_global_node_triplets=True,
-            max_knowledge_sequence=100,
-            num_chunks_per_query=5,
-            )
-
-        query_engine_keywords[key] = query_engine_key_keyword
-
     if key in vector_index:
         query_engine_key_vector = vector_index[key].as_query_engine(
             response_mode="tree_summarize",
@@ -541,23 +420,18 @@ for val in queries:
     vector_text = ""
     for key in en_rag.keys():
         rag = en_rag[key]
-        triples = en_triples[key]
         vec = en_vector[key]
         rag_text_en = f"""The following document chunks are only for the entity {key}.\n
         {rag}
         """
         rag_text = rag_text + "\n\n" + rag_text_en
-        triples_en = f"""The following knowledge graph triples are only for the entity {key}.\n
-        {triples}
-        """
-        triples_text = triples_text + "\n\n" + triples_en
 
         vector_en = f"""The following texts, extracted from a vector store, are only for the entity {key}.\n
         {vec}
         """
         vector_text = vector_text + "\n\n" + vector_en
 
-    query_prompt = get_query_prompt(val, triples_text, rag_text, vector_text)
+    query_prompt = get_query_prompt(val, rag_text, vector_text)
     system_prompt = get_query_system_prompt()
     prompt = f"""System: {system_prompt}\n\nUser: {query_prompt}\n\nAssistant:\n\n"""
     #print(prompt)
