@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Low Dose Melatonin", "CONNECTION": "is effective for", "ENTITY_2": "Someone"}, {"ENTITY_1": "Low Dose Melatonin", "CONNECTION": "is not effective for", "ENTITY_2": "Me"}, {"ENTITY_1": "Someone", "CONNECTION": "recommends", "ENTITY_2": "Low Dose Melatonin"}, {"ENTITY_1": "Me", "CONNECTION": "does not recommend", "ENTITY_2": "Low Dose Melatonin"}]

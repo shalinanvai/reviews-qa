@@ -1,0 +1,1 @@
+[{"ENTITY_1": "doctor", "CONNECTION": "recommended", "ENTITY_2": "product"}, {"ENTITY_1": "product", "CONNECTION": "taken by", "ENTITY_2": "user"}, {"ENTITY_1": "user", "CONNECTION": "rated", "ENTITY_2": "product"}, {"ENTITY_1": "product", "CONNECTION": "is", "ENTITY_2": "Rx Vitamins - Bone Density Formula 180 Capsules"}]

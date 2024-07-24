@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Pill Organizer", "CONNECTION": "storing", "ENTITY_2": "pills"}, {"ENTITY_1": "Pill Organizer", "CONNECTION": "fits in", "ENTITY_2": "purses"}, {"ENTITY_1": "Pill Organizer", "CONNECTION": "fits in", "ENTITY_2": "tour pockets"}, {"ENTITY_1": "Pill Organizer", "CONNECTION": "doesn't keep", "ENTITY_2": "pills separated"}]

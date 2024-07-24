@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Biotin", "CONNECTION": "supports", "ENTITY_2": "Hair, Skin, Nails"}, {"ENTITY_1": "Biotin", "CONNECTION": "contains", "ENTITY_2": "Calcium"}, {"ENTITY_1": "Biotin", "CONNECTION": "has", "ENTITY_2": "10000 mcg"}, {"ENTITY_1": "Biotin", "CONNECTION": "is", "ENTITY_2": "Vitamin Supplement"}, {"ENTITY_1": "Biotin", "CONNECTION": "is", "ENTITY_2": "Vitamin B7"}]

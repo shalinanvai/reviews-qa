@@ -1,0 +1,1 @@
+[{"ENTITY_1": "containers", "CONNECTION": "hold", "ENTITY_2": "6 vitamins"}, {"ENTITY_1": "containers", "CONNECTION": "hold", "ENTITY_2": "meds"}, {"ENTITY_1": "vitamins", "CONNECTION": "various sizes", "ENTITY_2": null}, {"ENTITY_1": "pieces", "CONNECTION": "various", "ENTITY_2": null}, {"ENTITY_1": "choice", "CONNECTION": "had", "ENTITY_2": null}]

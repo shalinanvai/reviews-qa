@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Product", "CONNECTION": "arrived on time", "ENTITY_2": "User"}, {"ENTITY_1": "Product", "CONNECTION": "satisfied", "ENTITY_2": "User"}, {"ENTITY_1": "Product", "CONNECTION": "rated", "ENTITY_2": "5.0 out of 5"}, {"ENTITY_1": "Product", "CONNECTION": "contains", "ENTITY_2": "Vitamins B6, B12, Folate, Trimethylglycine (TMG), and NAC"}]

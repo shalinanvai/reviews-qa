@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Mailing cost", "CONNECTION": "is issue", "ENTITY_2": "product"}, {"ENTITY_1": "product", "CONNECTION": "is good", "ENTITY_2": "Mailing cost"}, {"ENTITY_1": "Fern-C Vitamin", "CONNECTION": "is worth buying", "ENTITY_2": "alkaline vitamin"}, {"ENTITY_1": "alkaline vitamin", "CONNECTION": "increases immune system", "ENTITY_2": "Fern-C Vitamin"}]

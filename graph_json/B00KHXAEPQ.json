@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Natures Vitamin B2", "CONNECTION": "good for", "ENTITY_2": "son"}, {"ENTITY_1": "Natures Vitamin B2", "CONNECTION": "needed by", "ENTITY_2": "user"}, {"ENTITY_1": "Natures Vitamin B2", "CONNECTION": "timely arrival", "ENTITY_2": "product"}, {"ENTITY_1": "Natures Vitamin B2", "CONNECTION": "effective for", "ENTITY_2": "migraines"}]

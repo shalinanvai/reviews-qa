@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Lomatium Root 900mg", "CONNECTION": "is", "ENTITY_2": "herbal antibiotic"}, {"ENTITY_1": "doctor's antibiotics", "CONNECTION": "mess up", "ENTITY_2": "gut"}, {"ENTITY_1": "herbal antibiotic", "CONNECTION": "has", "ENTITY_2": "no adverse effects"}, {"ENTITY_1": "Lomatium", "CONNECTION": "used for", "ENTITY_2": "feeling better fast"}]

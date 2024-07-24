@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Alfa Vitamins Magnesium", "CONNECTION": "contains", "ENTITY_2": "Vitamin B6"}, {"ENTITY_1": "pills", "CONNECTION": "are", "ENTITY_2": "big and dry"}, {"ENTITY_1": "pills", "CONNECTION": "are", "ENTITY_2": "hard to swallow"}, {"ENTITY_1": "pills", "CONNECTION": "should be", "ENTITY_2": "capsules"}, {"ENTITY_1": "order", "CONNECTION": "won't", "ENTITY_2": "again"}]

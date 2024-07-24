@@ -1,0 +1,1 @@
+[{"ENTITY_1": "UnaBellaVita", "CONNECTION": "produces", "ENTITY_2": "Multivitamin"}, {"ENTITY_1": "Multivitamin", "CONNECTION": "contains", "ENTITY_2": "Vitamins"}, {"ENTITY_1": "Vitamins", "CONNECTION": "vegan", "ENTITY_2": "tablets"}, {"ENTITY_1": "tablets", "CONNECTION": "donate", "ENTITY_2": "Vitamin A"}]

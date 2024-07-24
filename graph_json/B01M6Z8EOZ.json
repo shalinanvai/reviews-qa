@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Icaps Lutein", "CONNECTION": "contains", "ENTITY_2": "Omega-3"}, {"ENTITY_1": "Omega-3", "CONNECTION": "is suggested by", "ENTITY_2": "Doctor"}, {"ENTITY_1": "Dad", "CONNECTION": "has", "ENTITY_2": "diabetes"}, {"ENTITY_1": "Dad", "CONNECTION": "uses", "ENTITY_2": "Icaps Lutein"}, {"ENTITY_1": "Icaps Lutein", "CONNECTION": "helped", "ENTITY_2": "Dad"}]

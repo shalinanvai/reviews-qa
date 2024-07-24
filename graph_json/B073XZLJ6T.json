@@ -1,0 +1,1 @@
+[{"ENTITY_1": "User", "CONNECTION": "reviewed", "ENTITY_2": "Item"}, {"ENTITY_1": "Item", "CONNECTION": "has", "ENTITY_2": "ASIN"}, {"ENTITY_1": "User", "CONNECTION": "rated", "ENTITY_2": "Rating"}, {"ENTITY_1": "User", "CONNECTION": "reviewed", "ENTITY_2": "Review Text"}, {"ENTITY_1": "User", "CONNECTION": "reviewed", "ENTITY_2": "Review Title"}]

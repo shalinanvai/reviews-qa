@@ -1,0 +1,1 @@
+[{"ENTITY_1": "AHMNS2NVOJTDHEOFIWXBRWYHWJSQ", "CONNECTION": "purchased", "ENTITY_2": "B09FYG21P5"}, {"ENTITY_1": "B09FYG21P5", "CONNECTION": "is", "ENTITY_2": "Bio-5 Nail, Skin, and Hair Supplement"}, {"ENTITY_1": "Bio-5 Nail, Skin, and Hair Supplement", "CONNECTION": "contains", "ENTITY_2": "Biotin, Zinc, Iron, Vitamin C, Vitamin A"}]
