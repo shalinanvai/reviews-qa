@@ -90,23 +90,22 @@ print(len(reviews))
 print(sum([len(reviews[key]) for key in reviews]))
 print(num_reviews)
 
+from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
+from llama_index.vector_stores.chroma import ChromaVectorStore
+from llama_index.core import StorageContext
+from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+from IPython.display import Markdown, display
 import chromadb
-chroma_client = chromadb.Client()
-chroma_client.delete_collection("reviews_collection")
-collection = chroma_client.create_collection(name="reviews_collection")
-documents = []
-ids = []
+
 for key in docs.keys():
+    chroma_client = chromadb.EphemeralClient()
+    collection = chroma_client.get_or_create_collection(name=key)
     doc_texts = docs[key]
-    documents.append(doc_texts)
-    ids.append(str(hash(doc_texts)))
-
-collection.add(
-    documents=documents,
-    ids=ids,
-)
-
-db_chroma = collection
+    collection.add(
+        documents=[doc_texts],
+        ids=[str(hash(t)) for t in [doc_texts]]
+    )
+    db_chroma[key] = collection
 
 title_to_asin = dict()
 titles = []
@@ -120,8 +119,7 @@ with(open(file_meta, "r") as f):
 
 import chromadb
 chroma_client = chromadb.Client()
-client.delete_collection("review_titles_new_250")
-collection = chroma_client.create_collection(name="review_titles_new_250")
+collection = chroma_client.get_or_create_collection(name="review_titles_new_250")
 collection.add(
     documents=titles,
     ids=[str(hash(t)) for t in titles]
@@ -533,7 +531,7 @@ for val in queries:
         en_vector[en] = triples_str_vectors
 
         query = q
-        docs_rag = db_chroma.query(
+        docs_rag = db_chroma[en].query(
             query_texts=[q], # Chroma will embed this for you
             n_results=5 # how many results to return
         )
