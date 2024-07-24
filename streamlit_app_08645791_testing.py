@@ -273,24 +273,24 @@ if num_asins and question:
     count = 0
     entire_json = dict()
     for key in docs:
-    file = "./graph_json/" + key + ".json"
-    if not os.path.exists(file):
-        doc = docs[key]
-        if len(doc.split()) > 10000:
-            continue
-        print(count)
-        count+=1
-        try:
-            entire_json_key = create_kg(doc)
-            open(file, "w").write(json.dumps(entire_json_key))
-            entire_json[key] = entire_json_key
-        except:
-            print("Too large prompt! Ignoring.")
-    else:
-        print(count)
-        count+=1
-        s = open(file, "r").read()
-        entire_json[key] = json.loads(s)
+        file = "./graph_json/" + key + ".json"
+        if not os.path.exists(file):
+            doc = docs[key]
+            if len(doc.split()) > 10000:
+                continue
+            print(count)
+            count+=1
+            try:
+                entire_json_key = create_kg(doc)
+                open(file, "w").write(json.dumps(entire_json_key))
+                entire_json[key] = entire_json_key
+            except:
+                print("Too large prompt! Ignoring.")
+        else:
+            print(count)
+            count+=1
+            s = open(file, "r").read()
+            entire_json[key] = json.loads(s)
 
     from scipy.sparse import linalg
     from llama_index.core import SimpleDirectoryReader, KnowledgeGraphIndex
