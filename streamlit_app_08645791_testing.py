@@ -28,20 +28,20 @@ OPENAI_API_KEY = openai_api_key
 
 # Ask the user for a question via `st.text_area`.
 num_asins_load = st.text_area(
-    "How many ASINs to load from the index? (This should be between 10 and 1000. This will affect processing speed.)",
-    value=50,
+    "How many ASINs to load from the index? (This should be between 10 and 100. This will affect the processing speed.)",
+    value=100,
 )
 
 num_asins_retrieve = st.text_area(
-    "How many ASINs to retrieve per query? (This should be between 1 and 20. This will affect processing speed.)",
-    value=5,
+    "How many ASINs to retrieve per query? (This should be between 1 and 20. This will affect the ßprocessing speed.)",
+    value=10,
 )
 
 queries = []
 # Ask the user for a question viaß `st.text_area`.
 question = st.text_area(
-    "Now ask a question! e.g. What are the benefits of taking dietary supplements? e.g. What are some positive reviews on brain supplements?\ne.g. What do the reviews say about the benefits of taking Zinc supplements?\ne.g. What are the vitamin supplements which have a 5 rating?",
-    value="Based on the reviews, what brain supplements do you recommend?"
+    "Now ask a question!  \ne.g.Based on the reviews, what brain supplements do you recommend?  \ne.g. What are the benefits of taking vitamin supplements?  \ne.g. What are some positive reviews on brain supplements?  \ne.g. What do the reviews say about the benefits of taking Zinc supplements?  \ne.g. What are the vitamin supplements which have a 5 rating?",
+    value="What are the benefits of taking vitamin supplements?"
 )
 
 queries.append(question)
