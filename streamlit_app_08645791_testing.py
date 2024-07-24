@@ -460,10 +460,10 @@ for key in docs:
             verbose=False,
             llm=llm_openai,
             include_text=False,
-            max_keywords_per_query=50,
+            max_keywords_per_query=5,
             retriever_mode="keyword", # change this to "keyword" or "hybrid" for spreadsheet querying
             use_global_node_triplets=True,
-            max_knowledge_sequence=500,
+            max_knowledge_sequence=100,
             num_chunks_per_query=5,
             )
 
@@ -473,7 +473,7 @@ for key in docs:
         query_engine_key_vector = vector_index[key].as_query_engine(
             response_mode="tree_summarize",
             max_knowledge_sequence=500,
-            similarity_top_k=50,
+            similarity_top_k=10,
             )
 
         query_engine_vectors[key] = query_engine_key_vector
