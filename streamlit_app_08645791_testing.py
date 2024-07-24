@@ -33,7 +33,7 @@ num_asins_load = st.text_area(
 )
 
 num_asins_retrieve = st.text_area(
-    "How many ASINs to retrieve per query? (This should be between 1 and 20. This will affect the ßprocessing speed.)",
+    "How many ASINs to retrieve per query? (This should be between 1 and 20. This will affect the processing speed.)",
     value=5,
 )
 
