@@ -29,19 +29,19 @@ OPENAI_API_KEY = openai_api_key
 # Ask the user for a question via `st.text_area`.
 num_asins_load = st.text_area(
     "How many ASINs to load from the index? (This should be between 10 and 100. This will affect processing speed.)",
-    value=50,
+    value=100,
 )
 
 num_asins_retrieve = st.text_area(
     "How many ASINs to retrieve per query? (This should be between 1 and 20. This will affect processing speed.)",
-    value=5,
+    value=10,
 )
 
 queries = []
 # Ask the user for a question viaß `st.text_area`.
 question = st.text_area(
-    "Now ask a question! e.g. What are some positive reviews?",
-    value="What are the sentiment drivers for the reviews of the Jinri hair dryer?"
+    "Now ask a question! e.g. What are some positive reviews on brain supplements?",
+    value="Based on the reviews, what brain supplements do you recommend?"
 )
 
 queries.append(question)
@@ -58,6 +58,16 @@ if num_asins_load and num_asins_retrieve and question:
     }
     }
 
+    file_meta = "meta_Health_and_Personal_Care.jsonl"
+    count = 1
+    item_titles = dict()
+    with(open(file_meta, "r") as f):
+        for val in f:
+            js = json.loads(val)
+            asin = js["parent_asin"]
+            title = js["title"]
+            item_titles[asin] = title
+
     file_reviews = "Health_and_Personal_Care.jsonl"
     reviews = dict()
     already_added = set()
@@ -69,7 +79,8 @@ if num_asins_load and num_asins_retrieve and question:
             title = js["title"]
             rating = js["rating"]
             userid = js["user_id"]
-            st1 = f"""ASIN: "{asin}", Title: "{title}", Review Text: "{text}", Rating: {rating} out of 5, User: {userid}.\n\n"""
+            itemtitle = item_titles[asin]
+            st1 = f"""ASIN: "{asin}", Review Title: "{title}", Review Text: "{text}", Rating: {rating} out of 5, User: {userid}, Item Title: {itemtitle}.\n\n"""
             if st1 not in already_added:
                 already_added.add(st1)
                 if asin in reviews:
@@ -123,11 +134,19 @@ if num_asins_load and num_asins_retrieve and question:
                 title_to_asin[js["title"]] = js["parent_asin"]
 
     import chromadb
+    import hashlib
+    ids_list = [str(hashlib.sha256(t.encode())) for t in titles]
+    ids = []
+    count = 0
+    for val in ids_list:
+        ids.append(val + "_" + str(count))
+        count+=1
+
     chroma_client = chromadb.Client()
-    collection_titles = chroma_client.get_or_create_collection(name="review_titles_new_250")
+    collection_titles = chroma_client.create_collection(name="review_titles_new_250_0_1_3_4")
     collection_titles.add(
         documents=titles,
-        ids=[str(hash(t)) for t in titles]
+        ids=ids
     )
 
     from langchain_openai import OpenAI
@@ -350,15 +369,8 @@ if num_asins_load and num_asins_retrieve and question:
     for key in docs.keys():
         if key not in entire_json:
             continue
-
-        if os.path.exists("./vectors/" + key + "_VECTORS"):
-            storage_context = StorageContext.from_defaults(persist_dir="./vectors/" + key + "_VECTORS")
-            index_key = load_index_from_storage(storage_context)
-        else:
-            documents_key = doc_dict[key]
-            index_key = VectorStoreIndex.from_documents(documents_key)
-            index_key.storage_context.persist(persist_dir="./vectors/" + key + "_VECTORS")
-
+        documents_key = doc_dict[key]
+        index_key = VectorStoreIndex.from_documents(documents_key)
         vector_index[key] = index_key
 
     query_engine_vectors = dict()
