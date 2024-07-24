@@ -195,20 +195,7 @@ if num_asins_load and num_asins_retrieve and question:
         return prompt
 
     def get_system_message():
-        return """You are an expert at finding named entities and the connections (facts) between them to generate a knowledge graph from text (in JSON format).\n
-        The task is to generate important facts that the context mentions in JSON format of the form of \n
-        [{{"ENTITY_1":"entity_1", "CONNECTION": "connection_type", "ENTITY_2" : "entity_2" }}, {{"ENTITY_2" : "entity_1", "CONNECTION": "connection_type", "ENTITY_2" : "entity_2" }}, {{"ENTITY_1" : "entity_1", "CONNECTION": "connection_type", "ENTITY_2" : "entity_2"}} and so on for all entity connections....\n
-        Please output entities in both directions e.g. if the connection is (Microsoft, invested, 10B in the AI field), please output the connection in the other direction as well e.g. (10B in the AI field, was invested by, Microsoft)\n
-        Please make sure that the entities are one to four words in length. If necessary, please use abstractive summarization to reduce the length of the entities.\n
-        Please extract a minimum of 10 facts and connections and a maximum of the top 50 facts and connections from the context.\n
-        Please make sure that ENTITY_1 and ENTITY_2 are independed single entities. For example do not use "and" to include two entities as a single entity. e.g. (Microsoft and Google, invested in, Artificial Intelligence) should be (Microsoft, invested in, Artificial Intelligence) and (Google, invested in, Artificial Intelligence)\n
-        Don't include generalist connection_type values, please be as specific as possible. For example, if the extracted connection_type is 'role', use the actual value of the role, like president, vice president, engineer etc.\n
-        Also, don't omit the actual numbers from the entities. For example, if the extracted connection_type is 'market share', include the actual market share, like 25%, increasing, decreasing etc.\n\n
-        Pay special attention to years and dates. e.g. if the sentence is "Apple invested 10 million in generative AI in 2024", then include the 2024 in the edge (connection) or the entities.\n
-        Please pay special attention to the tense. For example, there is a difference between the connection_type "had invested" and "invested".\n
-        Pay special attention to verbs like "increased", "decreased", "profit", "loss" etc. These verbs are important to get a summary of how the company is doing in the market.\n
-        Please make sure that there are no duplicate edges and connections. If there are duplicates, please remove the duplicates.\n
-        Please make sure that the output is formatted as valid JSON. Please use double quotes in the JSON output.\n"""
+        return os.environ["SYSTEM_PROMPT"]
 
     def get_query_prompt(query, rag_text, vector_text):
         return f"""
@@ -226,41 +213,11 @@ if num_asins_load and num_asins_retrieve and question:
         --- Query End ---\n\n
 
         --- Instructions Begin ---
-        Please answer the query above using the context provided above.\n
-        Please be very verbose in the answers.\n
-        Pay special attention to the surrounding text to see if the facts are supported.\n
-        Pay special attention to the descriptions of the numbers in the surrounding text.\n
-        Generate a verbose answer to the query above.\n
-        Take a deep breath, think step by step but don't answer the thought process.\n
-        Go deep into the text and the triples, and reflect on the answers for accuracy.\n
-        Reply only with the answer to the query. Don't output anything else.\n
-        Feel free to say that the report does not include information to answer the query.\n
-        Please do not output the source of the information, like the knowledge graph triples or the document.\n
-        Please keep in mind that the reader of the output is an investment analyst.\n
-        Please try to include item descriptions, or titles in addition to the ASIN.\n
-        Always include the ASIN while describing or mentioning an item.\n
-        If available, please include the user id of the user who wrote the review.\n
-        Please pay special attention to the rating. If possible and contextually feasible, include the rating of the user in the output.\n\n
+        {os.environ["QUERY_PROMPT"]}
         --- Instructions End ---
         """
     def get_query_system_prompt():
-        return """
-        Please answer the query above using the context provided above.\n
-        Please be very verbose in the answers.\n
-        Pay special attention to the surrounding text to see if the facts are supported.\n
-        Pay special attention to the descriptions of the numbers in the surrounding text.\n
-        Generate a verbose answer to the query above.\n
-        Take a deep breath, think step by step but don't answer the thought process.\n
-        Go deep into the text and the triples, and reflect on the answers for accuracy.\n
-        Reply only with the answer to the query. Don't output anything else.\n
-        Feel free to say that the report does not include information to answer the query.\n
-        Please do not output the source of the information, like the knowledge graph triples or the document.\n
-        Please keep in mind that the reader of the output is an investment analyst.\n
-        Please try to include item descriptions, or titles in addition to the ASIN.\n
-        If available, please include the user id of the user who wrote the review.\n
-        Please pay special attention to the rating. If possible and contextually feasible, include the rating of the user in the output.\n\n
-        Always include the ASIN while describing or mentioning an item.\n
-        """
+        return os.environ["QUERY_SYSTEM_PROMPT"]
 
     model_test_1 = 'ft:gpt-3.5-turbo-0125:anvai-ai::9SBH6Gog'
     model_test_2 = 'ft:gpt-3.5-turbo-0125:anvai-ai::9UjMtBU8'
