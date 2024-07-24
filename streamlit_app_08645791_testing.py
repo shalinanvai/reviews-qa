@@ -481,7 +481,7 @@ for key in docs:
 queries = []
 # Ask the user for a question via `st.text_area`.
 question = st.text_area(
-    "Now ask a question about the document!",
+    "Now ask a question! e.g. What do users think about the products of Jinri?",
 )
 
 queries.append(question)
@@ -489,7 +489,7 @@ res_str = ""
 for val in queries:
     results = collection.query(
         query_texts=[val], # Chroma will embed this for you
-        n_results=10 # how many results to return
+        n_results=5 # how many results to return
     )
 
     titles = []
