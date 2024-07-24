@@ -23,7 +23,7 @@ st.write("Enter the question about reviews on Amazon.com in the health care cate
 # Alternatively, you can store the API key in `./.streamlit/secrets.toml` and access it
 # via `st.secrets`, see https://docs.streamlit.io/develop/concepts/connections/secrets-management
 
-openai_api_key = s.environ["OPENAI_API_KEY"]
+openai_api_key = os.environ["OPENAI_API_KEY"]
 OPENAI_API_KEY = openai_api_key
 
 # Ask the user for a question via `st.text_area`.
