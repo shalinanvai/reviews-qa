@@ -55,21 +55,21 @@ if num_asins and question:
     reviews = dict()
     already_added = set()
     with(open(file_reviews, "r") as f):
-    for val in f:
-        js = json.loads(val)
-        text = js["text"]
-        asin = js["parent_asin"]
-        title = js["title"]
-        rating = js["rating"]
-        userid = js["user_id"]
-        st1 = f"""ASIN: "{asin}", Title: "{title}", Review Text: "{text}", Rating: {rating} out of 5, User: {userid}.\n\n"""
-        if st1 not in already_added:
-            already_added.add(st1)
-            if asin in reviews:
-                reviews[asin].append(st1)
-            else:
-                l = [st1]
-                reviews[asin] = l
+        for val in f:
+            js = json.loads(val)
+            text = js["text"]
+            asin = js["parent_asin"]
+            title = js["title"]
+            rating = js["rating"]
+            userid = js["user_id"]
+            st1 = f"""ASIN: "{asin}", Title: "{title}", Review Text: "{text}", Rating: {rating} out of 5, User: {userid}.\n\n"""
+            if st1 not in already_added:
+                already_added.add(st1)
+                if asin in reviews:
+                    reviews[asin].append(st1)
+                else:
+                    l = [st1]
+                    reviews[asin] = l
 
     docs = dict()
     count = 0
