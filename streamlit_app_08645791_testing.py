@@ -31,52 +31,59 @@ num_asins = st.text_area(
     "How many ASINs to use?",
 )
 
-if num_asins:
+queries = []
+# Ask the user for a question viaß `st.text_area`.
+question = st.text_area(
+    "Now ask a question! e.g. What are some positive reviews?",
+)
 
+queries.append(question)
+
+if num_asins and question:
     __import__('pysqlite3')
     import sys
     sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(".", 'db.sqlite3'),
-        }
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(".", 'db.sqlite3'),
+    }
     }
 
     file_reviews = "Health_and_Personal_Care.jsonl"
     reviews = dict()
     already_added = set()
     with(open(file_reviews, "r") as f):
-        for val in f:
-            js = json.loads(val)
-            text = js["text"]
-            asin = js["parent_asin"]
-            title = js["title"]
-            rating = js["rating"]
-            userid = js["user_id"]
-            st1 = f"""ASIN: "{asin}", Title: "{title}", Review Text: "{text}", Rating: {rating} out of 5, User: {userid}.\n\n"""
-            if st1 not in already_added:
-                already_added.add(st1)
-                if asin in reviews:
-                    reviews[asin].append(st1)
-                else:
-                    l = [st1]
-                    reviews[asin] = l
+    for val in f:
+        js = json.loads(val)
+        text = js["text"]
+        asin = js["parent_asin"]
+        title = js["title"]
+        rating = js["rating"]
+        userid = js["user_id"]
+        st1 = f"""ASIN: "{asin}", Title: "{title}", Review Text: "{text}", Rating: {rating} out of 5, User: {userid}.\n\n"""
+        if st1 not in already_added:
+            already_added.add(st1)
+            if asin in reviews:
+                reviews[asin].append(st1)
+            else:
+                l = [st1]
+                reviews[asin] = l
 
     docs = dict()
     count = 0
     num_reviews = 0
     for key in reviews:
-        r = reviews[key]
-        one_document_text = ""
-        for val in r:
-            num_reviews+=1
-            one_document_text = one_document_text + val + "\n\n"
-        docs[key] = one_document_text
-        count+=1
-        if count > int(num_asins):
-            break
+    r = reviews[key]
+    one_document_text = ""
+    for val in r:
+        num_reviews+=1
+        one_document_text = one_document_text + val + "\n\n"
+    docs[key] = one_document_text
+    count+=1
+    if count > int(num_asins):
+        break
 
     from langchain_experimental.text_splitter import SemanticChunker
     from langchain_openai import OpenAIEmbeddings
@@ -89,38 +96,38 @@ if num_asins:
 
     import chromadb
     for key in docs.keys():
-        chroma_client = chromadb.Client()
-        collection = chroma_client.get_or_create_collection(name=key)
-        doc_texts = docs[key]
-        collection.add(
-            documents=[doc_texts],
-            ids=[str(hash(t)) for t in [doc_texts]]
-        )
-        db_chroma[key] = collection
+    chroma_client = chromadb.Client()
+    collection = chroma_client.get_or_create_collection(name=key)
+    doc_texts = docs[key]
+    collection.add(
+        documents=[doc_texts],
+        ids=[str(hash(t)) for t in [doc_texts]]
+    )
+    db_chroma[key] = collection
 
     title_to_asin = dict()
     titles = []
     file_meta = "meta_Health_and_Personal_Care.jsonl"
     with(open(file_meta, "r") as f):
-        for val in f:
-            js = json.loads(val)
-            if js["parent_asin"] in docs.keys():
-                titles.append(js["title"])
-                title_to_asin[js["title"]] = js["parent_asin"]
+    for val in f:
+        js = json.loads(val)
+        if js["parent_asin"] in docs.keys():
+            titles.append(js["title"])
+            title_to_asin[js["title"]] = js["parent_asin"]
 
     import chromadb
     chroma_client = chromadb.Client()
     collection = chroma_client.get_or_create_collection(name="review_titles_new_250")
     collection.add(
-        documents=titles,
-        ids=[str(hash(t)) for t in titles]
+    documents=titles,
+    ids=[str(hash(t)) for t in titles]
     )
 
-from langchain_openai import OpenAI
-from langchain_openai import ChatOpenAI
-from langchain.schema import HumanMessage, SystemMessage
+    from langchain_openai import OpenAI
+    from langchain_openai import ChatOpenAI
+    from langchain.schema import HumanMessage, SystemMessage
 
-def completion(prompt: str, model_name: str) -> str:
+    def completion(prompt: str, model_name: str) -> str:
     chat = ChatOpenAI(temperature=0, model_name=model_name, openai_api_key=OPENAI_API_KEY)
     messages = [
         HumanMessage(
@@ -129,7 +136,7 @@ def completion(prompt: str, model_name: str) -> str:
     ]
     return chat(messages).content
 
-def create_entire_prompt_three_step(system, text):
+    def create_entire_prompt_three_step(system, text):
     three_step_prompt_env = os.environ["THREE_STEP"]
     prompt = f"""
     System: {system}
@@ -170,7 +177,7 @@ def create_entire_prompt_three_step(system, text):
     """
     return prompt
 
-def get_system_message():
+    def get_system_message():
     return """You are an expert at finding named entities and the connections (facts) between them to generate a knowledge graph from text (in JSON format).\n
     The task is to generate important facts that the context mentions in JSON format of the form of \n
     [{{"ENTITY_1":"entity_1", "CONNECTION": "connection_type", "ENTITY_2" : "entity_2" }}, {{"ENTITY_2" : "entity_1", "CONNECTION": "connection_type", "ENTITY_2" : "entity_2" }}, {{"ENTITY_1" : "entity_1", "CONNECTION": "connection_type", "ENTITY_2" : "entity_2"}} and so on for all entity connections....\n
@@ -186,7 +193,7 @@ def get_system_message():
     Please make sure that there are no duplicate edges and connections. If there are duplicates, please remove the duplicates.\n
     Please make sure that the output is formatted as valid JSON. Please use double quotes in the JSON output.\n"""
 
-def get_query_prompt(query, rag_text, vector_text):
+    def get_query_prompt(query, rag_text, vector_text):
     return f"""
 
     --- Vector Index Retrieved Document Chunks Begin ---
@@ -217,7 +224,7 @@ def get_query_prompt(query, rag_text, vector_text):
     Please keep in mind that the reader of the output is an investment analyst.\n
     --- Instructions End ---
     """
-def get_query_system_prompt():
+    def get_query_system_prompt():
     return """
     You are an expert question answering system. You use the knowledge graph triples as context and answer the questions in a verbose manner.\n
     Please be very verbose in the answers.\n
@@ -235,18 +242,18 @@ def get_query_system_prompt():
     Please keep in mind that the reader of the output is an investment analyst.\n
     """
 
-model_test_1 = 'ft:gpt-3.5-turbo-0125:anvai-ai::9SBH6Gog'
-model_test_2 = 'ft:gpt-3.5-turbo-0125:anvai-ai::9UjMtBU8'
-model_control = 'gpt-3.5-turbo'
-model_gpt4 = 'gpt-4'
-model_gpt4o = "gpt-4o"
+    model_test_1 = 'ft:gpt-3.5-turbo-0125:anvai-ai::9SBH6Gog'
+    model_test_2 = 'ft:gpt-3.5-turbo-0125:anvai-ai::9UjMtBU8'
+    model_control = 'gpt-3.5-turbo'
+    model_gpt4 = 'gpt-4'
+    model_gpt4o = "gpt-4o"
 
-import json
-import statistics
-import random
-system_message = get_system_message()
+    import json
+    import statistics
+    import random
+    system_message = get_system_message()
 
-def create_kg(docs):
+    def create_kg(docs):
     entire_json_key = []
     count = 0
     count+=1
@@ -263,9 +270,9 @@ def create_kg(docs):
 
     return entire_json_key
 
-count = 0
-entire_json = dict()
-for key in docs:
+    count = 0
+    entire_json = dict()
+    for key in docs:
     file = "./graph_json/" + key + ".json"
     if not os.path.exists(file):
         doc = docs[key]
@@ -285,30 +292,30 @@ for key in docs:
         s = open(file, "r").read()
         entire_json[key] = json.loads(s)
 
-from scipy.sparse import linalg
-from llama_index.core import SimpleDirectoryReader, KnowledgeGraphIndex
-from llama_index.core.graph_stores import SimpleGraphStore
-from llama_index.graph_stores.neo4j import Neo4jGraphStore
-from llama_index.embeddings.openai import OpenAIEmbedding
-from llama_index.graph_stores.nebula import NebulaGraphStore
-from llama_index.core import StorageContext
-from llama_index.core import SummaryIndex, Document
-from llama_index.llms.openai import OpenAI
-from llama_index.core import Settings
-from llama_index.core.schema import BaseNode, IndexNode, TextNode
-import os
-import sys
+    from scipy.sparse import linalg
+    from llama_index.core import SimpleDirectoryReader, KnowledgeGraphIndex
+    from llama_index.core.graph_stores import SimpleGraphStore
+    from llama_index.graph_stores.neo4j import Neo4jGraphStore
+    from llama_index.embeddings.openai import OpenAIEmbedding
+    from llama_index.graph_stores.nebula import NebulaGraphStore
+    from llama_index.core import StorageContext
+    from llama_index.core import SummaryIndex, Document
+    from llama_index.llms.openai import OpenAI
+    from llama_index.core import Settings
+    from llama_index.core.schema import BaseNode, IndexNode, TextNode
+    import os
+    import sys
 
-llm_openai = OpenAI(model=model_test_2, temperature=0)
-Settings.llm = llm_openai
-llm_gpt4o = OpenAI(model=model_gpt4o, temperature=0)
-Settings.embed_model = OpenAIEmbedding()
+    llm_openai = OpenAI(model=model_test_2, temperature=0)
+    Settings.llm = llm_openai
+    llm_gpt4o = OpenAI(model=model_gpt4o, temperature=0)
+    Settings.embed_model = OpenAIEmbedding()
 
-import kuzu
-from llama_index.graph_stores.kuzu import KuzuGraphStore
+    import kuzu
+    from llama_index.graph_stores.kuzu import KuzuGraphStore
 
-doc_dict = dict()
-for key in docs.keys():
+    doc_dict = dict()
+    for key in docs.keys():
     if key not in entire_json:
         continue
 
@@ -330,10 +337,10 @@ for key in docs.keys():
 
     doc_dict[key] = doc_list
 
-from llama_index.core import StorageContext, load_index_from_storage
+    from llama_index.core import StorageContext, load_index_from_storage
 
-vector_index = dict()
-for key in docs.keys():
+    vector_index = dict()
+    for key in docs.keys():
     if key not in entire_json:
         continue
 
@@ -347,9 +354,9 @@ for key in docs.keys():
 
     vector_index[key] = index_key
 
-query_engine_vectors = dict()
+    query_engine_vectors = dict()
 
-for key in docs:
+    for key in docs:
     if key in vector_index:
         query_engine_key_vector = vector_index[key].as_query_engine(
             response_mode="tree_summarize",
@@ -359,82 +366,74 @@ for key in docs:
 
         query_engine_vectors[key] = query_engine_key_vector
 
-queries = []
-# Ask the user for a question via `st.text_area`.
-question = st.text_area(
-    "Now ask a question! e.g. What are some positive reviews?",
-)
-
-if question:
-    queries.append(question)
     res_str = ""
     for val in queries:
-        results = collection.query(
-            query_texts=[val], # Chroma will embed this for you
+    results = collection.query(
+        query_texts=[val], # Chroma will embed this for you
+        n_results=5 # how many results to return
+    )
+
+    titles = []
+    asins = []
+    for title in results["documents"][0]:
+        if title in title_to_asin:
+            asin = title_to_asin[title]
+            if asin in entire_json:
+                asins.append(asin)
+
+    print("*********************")
+    print("Query: " + val)
+    print("")
+    count = 0
+    en_rag = dict()
+    en_vector = dict()
+
+    for en in asins:
+        q = val
+        count+=1
+        triples_str_vectors = ""
+        if en in query_engine_vectors:
+            response = query_engine_vectors[en].query(q)
+            triples_str_vectors = str(response)
+
+        en_vector[en] = triples_str_vectors
+
+        query = q
+        docs_rag = db_chroma[en].query(
+            query_texts=[q], # Chroma will embed this for you
             n_results=5 # how many results to return
         )
 
-        titles = []
-        asins = []
-        for title in results["documents"][0]:
-            if title in title_to_asin:
-                asin = title_to_asin[title]
-                if asin in entire_json:
-                    asins.append(asin)
-
-        print("*********************")
-        print("Query: " + val)
-        print("")
-        count = 0
-        en_rag = dict()
-        en_vector = dict()
-
-        for en in asins:
-            q = val
-            count+=1
-            triples_str_vectors = ""
-            if en in query_engine_vectors:
-                response = query_engine_vectors[en].query(q)
-                triples_str_vectors = str(response)
-
-            en_vector[en] = triples_str_vectors
-
-            query = q
-            docs_rag = db_chroma[en].query(
-                query_texts=[q], # Chroma will embed this for you
-                n_results=5 # how many results to return
-            )
-
-            rag_text = ""
-            for rag_doc in docs_rag["documents"][0]:
-                rag_text = rag_text + "\n\n" + rag_doc
-
-            en_rag[en] = rag_text
-
         rag_text = ""
-        vector_text = ""
-        for key in en_rag.keys():
-            rag = en_rag[key]
-            vec = en_vector[key]
-            rag_text_en = f"""The following document chunks are only for the entity {key}.\n
-            {rag}
-            """
-            rag_text = rag_text + "\n\n" + rag_text_en
+        for rag_doc in docs_rag["documents"][0]:
+            rag_text = rag_text + "\n\n" + rag_doc
 
-            vector_en = f"""The following texts, extracted from a vector store, are only for the entity {key}.\n
-            {vec}
-            """
-            vector_text = vector_text + "\n\n" + vector_en
+        en_rag[en] = rag_text
 
-        query_prompt = get_query_prompt(val, rag_text, vector_text)
-        system_prompt = get_query_system_prompt()
-        prompt = f"""System: {system_prompt}\n\nUser: {query_prompt}\n\nAssistant:\n\n"""
-        #print(prompt)
-        response_text = completion(prompt, model_gpt4o)
-        #display(Markdown(response_text))
-        print(response_text)
-        res_str = response_text
-        print("*********************")
+    rag_text = ""
+    vector_text = ""
+    for key in en_rag.keys():
+        rag = en_rag[key]
+        vec = en_vector[key]
+        rag_text_en = f"""The following document chunks are only for the entity {key}.\n
+        {rag}
+        """
+        rag_text = rag_text + "\n\n" + rag_text_en
+
+        vector_en = f"""The following texts, extracted from a vector store, are only for the entity {key}.\n
+        {vec}
+        """
+        vector_text = vector_text + "\n\n" + vector_en
+
+    query_prompt = get_query_prompt(val, rag_text, vector_text)
+    system_prompt = get_query_system_prompt()
+    prompt = f"""System: {system_prompt}\n\nUser: {query_prompt}\n\nAssistant:\n\n"""
+    #print(prompt)
+    response_text = completion(prompt, model_gpt4o)
+    #display(Markdown(response_text))
+    print(response_text)
+    res_str = response_text
+    print("*********************")
 
     # Stream the response to the app using `st.write_stream`.
     st.write(res_str)
