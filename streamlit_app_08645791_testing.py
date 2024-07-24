@@ -292,7 +292,7 @@ if num_asins_load and num_asins_retrieve and question:
     for key in docs:
         file = "./graph_json/" + key + ".json"
         if not os.path.exists(file):
-            doc = docs[key]
+            """doc = docs[key]
             if len(doc.split()) > 10000:
                 continue
             print(count)
@@ -303,6 +303,8 @@ if num_asins_load and num_asins_retrieve and question:
                 entire_json[key] = entire_json_key
             except:
                 print("Too large prompt! Ignoring.")
+            """
+            None
         else:
             print(count)
             count+=1

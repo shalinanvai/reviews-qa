@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Iron Vitamin Gummies", "CONNECTION": "tastes awful", "ENTITY_2": "users"}, {"ENTITY_1": "users", "CONNECTION": "rated", "ENTITY_2": "Iron Vitamin Gummies"}, {"ENTITY_1": "Iron Vitamin Gummies", "CONNECTION": "not recommended", "ENTITY_2": "children"}, {"ENTITY_1": "children", "CONNECTION": "spit out", "ENTITY_2": "Iron Vitamin Gummies"}]
