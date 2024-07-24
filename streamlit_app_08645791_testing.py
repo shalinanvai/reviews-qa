@@ -291,23 +291,23 @@ if num_asins_load and num_asins_retrieve and question:
     entire_json = dict()
     for key in docs:
         file = "./graph_json/" + key + ".json"
-        if not os.path.exists(file):
-            """doc = docs[key]
-            if len(doc.split()) > 10000:
-                continue
-            print(count)
-            count+=1
-            try:
-                entire_json_key = create_kg(doc)
-                open(file, "w").write(json.dumps(entire_json_key))
-                entire_json[key] = entire_json_key
-            except:
-                print("Too large prompt! Ignoring.")
-            """
-            None
-        else:
-            print(count)
-            count+=1
+        #if not os.path.exists(file):
+            #doc = docs[key]
+            #if len(doc.split()) > 10000:
+                #continue
+            #print(count)
+            #count+=1
+            #try:
+            #    entire_json_key = create_kg(doc)
+            #    open(file, "w").write(json.dumps(entire_json_key))
+            #    entire_json[key] = entire_json_key
+            #except:
+            #    print("Too large prompt! Ignoring.")
+            #None
+        #else:
+        if os.path.exists(file):
+            #print(count)
+            #count+=1
             s = open(file, "r").read()
             entire_json[key] = json.loads(s)
 
