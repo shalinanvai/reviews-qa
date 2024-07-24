@@ -89,6 +89,8 @@ if num_asins_load and num_asins_retrieve and question:
                     l = [st1]
                     reviews[asin] = l
 
+    already_added = None
+
     docs = dict()
     count = 0
     num_reviews = 0
@@ -103,17 +105,15 @@ if num_asins_load and num_asins_retrieve and question:
         if count > int(num_asins_load):
             break
 
+    reviews = None
+
     from langchain_experimental.text_splitter import SemanticChunker
     from langchain_openai import OpenAIEmbeddings
-    text_splitter = SemanticChunker(OpenAIEmbeddings())
+    text_splitter = SemanticChunker(OpenAIEmbeddings(model="text-embedding-3-small"))
 
     db_chroma = dict()
-    print(len(reviews))
-    print(sum([len(reviews[key]) for key in reviews]))
-    print(num_reviews)
-
     import chromadb
-    for key in docs.keys():
+    for key in docs:
         chroma_client = chromadb.Client()
         collection = chroma_client.get_or_create_collection(name=key)
         doc_texts = docs[key]
@@ -129,7 +129,7 @@ if num_asins_load and num_asins_retrieve and question:
     with(open(file_meta, "r") as f):
         for val in f:
             js = json.loads(val)
-            if js["parent_asin"] in docs.keys():
+            if js["parent_asin"] in docs:
                 titles.append(js["title"])
                 title_to_asin[js["title"]] = js["parent_asin"]
 
@@ -149,6 +149,10 @@ if num_asins_load and num_asins_retrieve and question:
         ids=ids
     )
 
+    titles = None
+    ids = None
+    ids_list = None
+
     from langchain_openai import OpenAI
     from langchain_openai import ChatOpenAI
     from langchain.schema import HumanMessage, SystemMessage
@@ -164,6 +168,7 @@ if num_asins_load and num_asins_retrieve and question:
 
     def create_entire_prompt_three_step(system, text):
         three_step_prompt_env = os.environ["THREE_STEP"]
+        prompt_instructions = os.environ["PROMPT_INSTRUCTIONS"]
         prompt = f"""
         System: {system}
 
@@ -182,21 +187,7 @@ if num_asins_load and num_asins_retrieve and question:
 
         Please output entities in both directions e.g. if the connection is (Microsoft, invested, 10B in the AI field), please output the connection in the other direction as well e.g. (10B in the AI field, was invested by, Microsoft)\n\n
 
-        The task is to generate important facts that the context mentions in JSON format of the form of \n
-        [{{"ENTITY_1":"entity_1", "CONNECTION": "connection_type", "ENTITY_2" : "entity_2" }}, {{"ENTITY_2" : "entity_1", "CONNECTION": "connection_type", "ENTITY_2" : "entity_2" }}, {{"ENTITY_1" : "entity_1", "CONNECTION": "connection_type", "ENTITY_2" : "entity_2"}} and so on for all entity connections....\n
-        The entities (entity_1, entity_2) and the fact (connection_type) should be summarized to 1, 2 or 3 words using abstractive summarization.\n
-        For example, (Walmart, revenue, 10B) or (Target, established, 1954) or (Diwali, celebrated by, Hindus).\n
-        Please extract a minimum of 10 facts and connections and a maximum of the top 50 facts and connections from the context.\n
-        Take a deep breath, and think step by step, read the full context and title, but do not return the thought process in the summary.\n
-        The entities (entity_1, entity_2) and the fact (connection_type) should be summarized to 1, 2 or 3 words using abstractive summarization.\n
-        Don't include generalist connection_type values, please be as specific as possible. For example, if the extracted connection_type is 'role', use the actual value of the role, like president, vice president, engineer etc.\n
-        Also, don't omit the actual numbers from the entities. For example, if the extracted connection_type is 'market share', include the actual market share, like 25%, increasing, decreasing etc.\n
-        Please make sure that the entities are one to four words in length. If necessary, please use abstractive summarization to reduce the length of the entities.\n
-        Also, if the entity is a common noun, like viewership, please make sure to include the proper noun in ENTITY_1 or ENTITY_2. For example, if the connection is viewership, you should include the propernoun such as Netflix. So, the entity would be "Netflix Viewership" instead of just "Viewership".\n
-        The ENTITY_1, CONNECTION and ENTITY_2 should be self-contained and it should be able to understand the context of the connection without reading the context.\n
-        Please make sure that ENTITY_1 and ENTITY_2 are independent single entities. For example do not use "and" to include two entities as a single entity. e.g. (Microsoft and Google, invested in, Artificial Intelligence) should be (Microsoft, invested in, Artificial Intelligence) and (Google, invested in, Artificial Intelligence)\n
-        Please ensure that the output is formatted as valid JSON. Please use double quotes in the JSON output.\n
-        Please make sure that you produce output. An empty output is not acceptable.\n
+        {prompt_instructions}\n\n
         --- Instructions End ---
 
         Assistant:
@@ -318,6 +309,8 @@ if num_asins_load and num_asins_retrieve and question:
             s = open(file, "r").read()
             entire_json[key] = json.loads(s)
 
+    docs = set(docs.keys())
+
     from scipy.sparse import linalg
     from llama_index.core import SimpleDirectoryReader, KnowledgeGraphIndex
     from llama_index.core.graph_stores import SimpleGraphStore
@@ -338,7 +331,7 @@ if num_asins_load and num_asins_retrieve and question:
     Settings.embed_model = OpenAIEmbedding()
 
     doc_dict = dict()
-    for key in docs.keys():
+    for key in docs:
         if key not in entire_json:
             continue
 
@@ -363,7 +356,7 @@ if num_asins_load and num_asins_retrieve and question:
     from llama_index.core import StorageContext, load_index_from_storage
 
     vector_index = dict()
-    for key in docs.keys():
+    for key in docs:
         if key not in entire_json:
             continue
         documents_key = doc_dict[key]
