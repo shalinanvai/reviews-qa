@@ -91,16 +91,22 @@ print(sum([len(reviews[key]) for key in reviews]))
 print(num_reviews)
 
 import chromadb
+chroma_client = chromadb.Client()
+chroma_client.delete_collection("reviews_collection")
+collection = chroma_client.create_collection(name="reviews_collection")
+documents = []
+ids = []
 for key in docs.keys():
-    chroma_client = chromadb.Client()
-    chroma_client.delete_collection(key)
-    collection = chroma_client.create_collection(name=key)
     doc_texts = docs[key]
-    collection.add(
-        documents=[doc_texts],
-        ids=[str(hash(t)) for t in [doc_texts]]
-    )
-    db_chroma[key] = collection
+    documents.append(doc_texts)
+    ids.append(str(hash(doc_texts)))
+
+collection.add(
+    documents=documents,
+    ids=ids,
+)
+
+db_chroma = collection
 
 title_to_asin = dict()
 titles = []
@@ -527,7 +533,7 @@ for val in queries:
         en_vector[en] = triples_str_vectors
 
         query = q
-        docs_rag = db_chroma[en].query(
+        docs_rag = db_chroma.query(
             query_texts=[q], # Chroma will embed this for you
             n_results=5 # how many results to return
         )
