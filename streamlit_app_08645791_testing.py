@@ -197,12 +197,16 @@ def get_system_message():
     Please make sure that there are no duplicate edges and connections. If there are duplicates, please remove the duplicates.\n
     Please make sure that the output is formatted as valid JSON. Please use double quotes in the JSON output.\n"""
 
-def get_query_prompt(query, rag_text, vector_text):
+def get_query_prompt(query, context, rag_text, vector_text):
     return f"""
 
     --- Vector Index Retrieved Document Chunks Begin ---
     {vector_text}
     --- Vector Index Retrieved Document Chunks End ---
+
+    --- Knowledge Graph Triples Context Begin ---\n
+    {context}\n
+    --- Knowledge Graph Triples Context End ---\n\n
 
     --- Document Context Begin ---
     {rag_text}\n
@@ -317,7 +321,7 @@ Settings.embed_model = OpenAIEmbedding()
 
 import kuzu
 from llama_index.graph_stores.kuzu import KuzuGraphStore
-"""
+
 index = dict()
 for key in docs.keys():
     try:
@@ -405,7 +409,7 @@ for key in index.keys():
     if not os.path.exists("./kuzu_databases/" + key):
         js = entire_json[key]
         add_to_kg(index_key, js)
-"""
+
 doc_dict = dict()
 for key in docs.keys():
     if key not in entire_json:
@@ -450,7 +454,6 @@ query_engine_vectors = dict()
 query_engine_keywords = dict()
 
 for key in docs:
-    """
     if key in index:
         query_engine_key_keyword = index[key].as_query_engine(
             response_mode="tree_summarize",
@@ -465,7 +468,7 @@ for key in docs:
             )
 
         query_engine_keywords[key] = query_engine_key_keyword
-    """
+
     if key in vector_index:
         query_engine_key_vector = vector_index[key].as_query_engine(
             response_mode="tree_summarize",
@@ -508,12 +511,11 @@ for val in queries:
     for en in asins:
         q = val
         count+=1
-        """triples_str_keywords = ""
+        triples_str_keywords = ""
         if en in query_engine_keywords:
             response = query_engine_keywords[en].query(q)
             triples_str_keywords = str(response)
         en_triples[en] = triples_str_keywords
-        """
 
         triples_str_vectors = ""
         if en in query_engine_vectors:
@@ -525,7 +527,7 @@ for val in queries:
         query = q
         docs_rag = db_chroma[en].query(
             query_texts=[q], # Chroma will embed this for you
-            n_results=2 # how many results to return
+            n_results=5 # how many results to return
         )
 
         rag_text = ""
@@ -545,18 +547,17 @@ for val in queries:
         {rag}
         """
         rag_text = rag_text + "\n\n" + rag_text_en
-        #triples_en = f"""The following knowledge graph triples are only for the entity {key}.\n
-        #{triples}
-        #"""
-        #triples_text = triples_text + "\n\n" + triples_en
+        triples_en = f"""The following knowledge graph triples are only for the entity {key}.\n
+        {triples}
+        """
+        triples_text = triples_text + "\n\n" + triples_en
 
         vector_en = f"""The following texts, extracted from a vector store, are only for the entity {key}.\n
         {vec}
         """
         vector_text = vector_text + "\n\n" + vector_en
 
-    triples_text = ""
-    query_prompt = get_query_prompt(val, rag_text, vector_text)
+    query_prompt = get_query_prompt(val, triples_text, rag_text, vector_text)
     system_prompt = get_query_system_prompt()
     prompt = f"""System: {system_prompt}\n\nUser: {query_prompt}\n\nAssistant:\n\n"""
     #print(prompt)
