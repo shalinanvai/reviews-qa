@@ -89,7 +89,8 @@ from langchain_community.document_loaders import TextLoader
 from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import CharacterTextSplitter
 from langchain_community.vectorstores import FAISS
-db_chroma = FAISS.from_documents(docs.values(), OpenAIEmbeddings())
+ldocs = [Document(page_content=val, metadata={"source": "local"}) for val in docs.values()]
+db_chroma = FAISS.from_documents(ldocs, OpenAIEmbeddings())
 
 """
 for key in docs.keys():
