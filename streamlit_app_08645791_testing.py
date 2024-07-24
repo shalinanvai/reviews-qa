@@ -28,7 +28,7 @@ OPENAI_API_KEY = openai_api_key
 
 # Ask the user for a question via `st.text_area`.
 num_asins_load = st.text_area(
-    "How many ASINs to load from the index? (This should be between 10 and 100. This will affect processing speed.)",
+    "How many ASINs to load from the index? (This should be between 10 and 1000. This will affect processing speed.)",
     value=50,
 )
 
