@@ -228,9 +228,7 @@ if num_asins_load and num_asins_retrieve and question:
         --- Instructions Begin ---
         Please answer the query above using the context provided above.\n
         Please be very verbose in the answers.\n
-        Pay special attention to the surrounding text to see if the numbers are stock prices, revenues.\n
-        Please distinguish between the revenue and stock prices. For instance $ 10B might be a revenue while $ 500 might be a stock price.\n
-        Don't get confused between revenue, stock prices, profit and income.\n
+        Pay special attention to the surrounding text to see if the facts are supported.\n
         Pay special attention to the descriptions of the numbers in the surrounding text.\n
         Generate a verbose answer to the query above.\n
         Take a deep breath, think step by step but don't answer the thought process.\n
@@ -239,16 +237,16 @@ if num_asins_load and num_asins_retrieve and question:
         Feel free to say that the report does not include information to answer the query.\n
         Please do not output the source of the information, like the knowledge graph triples or the document.\n
         Please keep in mind that the reader of the output is an investment analyst.\n
+        Please try to include item descriptions, or titles in addition to the ASIN.\n
+        If available, please include the user id of the user who wrote the review.\n
+        Please pay special attention to the rating. If possible and contextually feasible, include the rating of the user in the output.\n\n
         --- Instructions End ---
         """
     def get_query_system_prompt():
         return """
-        You are an expert question answering system. You use the knowledge graph triples as context and answer the questions in a verbose manner.\n
+        Please answer the query above using the context provided above.\n
         Please be very verbose in the answers.\n
-        Pay special attention to the surrounding text to see if the numbers are stock prices, revenues.\n
-        Please distinguish between the revenue and stock prices. For instance $ 10B might be a revenue while $ 500 might be a stock price.\n
-        e.g. $125 is a stock price. $10B is revenue, profit or income. $100,000M is revenue, profit or income.\n
-        e.g. $350 is a stock price. $100 B is revenue, profit or income. $250,000 M is revenue, profit or income.\n
+        Pay special attention to the surrounding text to see if the facts are supported.\n
         Pay special attention to the descriptions of the numbers in the surrounding text.\n
         Generate a verbose answer to the query above.\n
         Take a deep breath, think step by step but don't answer the thought process.\n
@@ -257,6 +255,9 @@ if num_asins_load and num_asins_retrieve and question:
         Feel free to say that the report does not include information to answer the query.\n
         Please do not output the source of the information, like the knowledge graph triples or the document.\n
         Please keep in mind that the reader of the output is an investment analyst.\n
+        Please try to include item descriptions, or titles in addition to the ASIN.\n
+        If available, please include the user id of the user who wrote the review.\n
+        Please pay special attention to the rating. If possible and contextually feasible, include the rating of the user in the output.\n\n
         """
 
     model_test_1 = 'ft:gpt-3.5-turbo-0125:anvai-ai::9SBH6Gog'
