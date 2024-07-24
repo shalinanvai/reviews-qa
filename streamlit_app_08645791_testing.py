@@ -29,7 +29,7 @@ OPENAI_API_KEY = openai_api_key
 # Ask the user for a question via `st.text_area`.
 num_asins_load = st.text_area(
     "How many ASINs to load from the index? (This should be between 10 and 100. This will affect processing speed.)",
-    value=100,
+    value=50,
 )
 
 num_asins_retrieve = st.text_area(
@@ -336,9 +336,6 @@ if num_asins_load and num_asins_retrieve and question:
     Settings.llm = llm_openai
     llm_gpt4o = OpenAI(model=model_gpt4o, temperature=0)
     Settings.embed_model = OpenAIEmbedding()
-
-    import kuzu
-    from llama_index.graph_stores.kuzu import KuzuGraphStore
 
     doc_dict = dict()
     for key in docs.keys():
