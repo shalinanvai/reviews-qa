@@ -238,6 +238,7 @@ if num_asins_load and num_asins_retrieve and question:
         Please do not output the source of the information, like the knowledge graph triples or the document.\n
         Please keep in mind that the reader of the output is an investment analyst.\n
         Please try to include item descriptions, or titles in addition to the ASIN.\n
+        Always include the ASIN while describing or mentioning an item.\n
         If available, please include the user id of the user who wrote the review.\n
         Please pay special attention to the rating. If possible and contextually feasible, include the rating of the user in the output.\n\n
         --- Instructions End ---
@@ -258,6 +259,7 @@ if num_asins_load and num_asins_retrieve and question:
         Please try to include item descriptions, or titles in addition to the ASIN.\n
         If available, please include the user id of the user who wrote the review.\n
         Please pay special attention to the rating. If possible and contextually feasible, include the rating of the user in the output.\n\n
+        Always include the ASIN while describing or mentioning an item.\n
         """
 
     model_test_1 = 'ft:gpt-3.5-turbo-0125:anvai-ai::9SBH6Gog'
