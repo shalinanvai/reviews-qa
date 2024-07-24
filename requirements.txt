@@ -12,3 +12,5 @@ pysqlite3-binary
 langchain-openai
 llama-index-vector-stores-chroma
 llama-index-embeddings-huggingface
+pinecone-client
+langchain-chroma
