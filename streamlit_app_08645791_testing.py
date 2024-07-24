@@ -383,19 +383,12 @@ for val in queries:
     print("Query: " + val)
     print("")
     count = 0
-    en_triples = dict()
     en_rag = dict()
     en_vector = dict()
 
     for en in asins:
         q = val
         count+=1
-        triples_str_keywords = ""
-        if en in query_engine_keywords:
-            response = query_engine_keywords[en].query(q)
-            triples_str_keywords = str(response)
-        en_triples[en] = triples_str_keywords
-
         triples_str_vectors = ""
         if en in query_engine_vectors:
             response = query_engine_vectors[en].query(q)
@@ -415,7 +408,6 @@ for val in queries:
 
         en_rag[en] = rag_text
 
-    triples_text = ""
     rag_text = ""
     vector_text = ""
     for key in en_rag.keys():
