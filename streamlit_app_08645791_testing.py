@@ -332,7 +332,7 @@ if num_asins_load and num_asins_retrieve and question:
             query_engine_key_vector = vector_index[key].as_query_engine(
                 response_mode="tree_summarize",
                 max_knowledge_sequence=500,
-                similarity_top_k=10,
+                similarity_top_k=50,
                 )
 
             query_engine_vectors[key] = query_engine_key_vector
