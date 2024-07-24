@@ -85,17 +85,14 @@ from langchain_experimental.text_splitter import SemanticChunker
 from langchain_openai import OpenAIEmbeddings
 text_splitter = SemanticChunker(OpenAIEmbeddings())
 
-from langchain_community.document_loaders import TextLoader
-from langchain_openai import OpenAIEmbeddings
-from langchain_text_splitters import CharacterTextSplitter
-from langchain_community.vectorstores import FAISS
-from langchain.docstore.document import Document as Document_LC
-ldocs = [Document_LC(page_content=val, metadata={"source": "local"}) for val in docs.values()]
-db_chroma = FAISS.from_documents(ldocs, OpenAIEmbeddings())
+db_chroma = dict()
+print(len(reviews))
+print(sum([len(reviews[key]) for key in reviews]))
+print(num_reviews)
 
-"""
+import chromadb
 for key in docs.keys():
-    chroma_client = chromadb.EphemeralClient()
+    chroma_client = chromadb.Client()
     collection = chroma_client.get_or_create_collection(name=key)
     doc_texts = docs[key]
     collection.add(
@@ -103,7 +100,6 @@ for key in docs.keys():
         ids=[str(hash(t)) for t in [doc_texts]]
     )
     db_chroma[key] = collection
-"""
 
 title_to_asin = dict()
 titles = []
@@ -528,21 +524,28 @@ for val in queries:
 
         en_vector[en] = triples_str_vectors
 
-    docs_rag = db_chroma.similarity_search(
-        query_texts=[val], # Chroma will embed this for you
-        n_results=5 # how many results to return
-    )
+        query = q
+        docs_rag = db_chroma[en].query(
+            query_texts=[q], # Chroma will embed this for you
+            n_results=5 # how many results to return
+        )
 
-    rag_text = ""
-    for rag_doc in docs_rag:
-        rag_text = rag_text + "\n\n" + rag_doc.page_content
+        rag_text = ""
+        for rag_doc in docs_rag["documents"][0]:
+            rag_text = rag_text + "\n\n" + rag_doc
+
+        en_rag[en] = rag_text
 
     triples_text = ""
     rag_text = ""
     vector_text = ""
-    for key in en_vector.keys():
+    for key in en_rag.keys():
+        rag = en_rag[key]
         triples = en_triples[key]
         vec = en_vector[key]
+        rag_text_en = f"""The following document chunks are only for the entity {key}.\n
+        {rag}
+        """
         rag_text = rag_text + "\n\n" + rag_text_en
         triples_en = f"""The following knowledge graph triples are only for the entity {key}.\n
         {triples}
