@@ -109,7 +109,7 @@ if num_asins_load and num_asins_retrieve and question:
 
     from langchain_experimental.text_splitter import SemanticChunker
     from langchain_openai import OpenAIEmbeddings
-    text_splitter = SemanticChunker(OpenAIEmbeddings(model="text-embedding-3-small"))
+    text_splitter = SemanticChunker(OpenAIEmbeddings())
 
     db_chroma = dict()
     import chromadb
