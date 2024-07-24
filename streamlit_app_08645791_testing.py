@@ -184,7 +184,7 @@ def get_system_message():
     Please make sure that there are no duplicate edges and connections. If there are duplicates, please remove the duplicates.\n
     Please make sure that the output is formatted as valid JSON. Please use double quotes in the JSON output.\n"""
 
-def get_query_prompt(query, context, rag_text, vector_text):
+def get_query_prompt(query, rag_text, vector_text):
     return f"""
 
     --- Vector Index Retrieved Document Chunks Begin ---
