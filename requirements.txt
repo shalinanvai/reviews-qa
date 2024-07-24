@@ -9,3 +9,4 @@ llama-index-graph-stores-neo4j
 llama-index-graph-stores-nebula
 chromadb
 pysqlite3-binary
+langchain-openai
