@@ -316,55 +316,55 @@ if num_asins and question:
 
     doc_dict = dict()
     for key in docs.keys():
-    if key not in entire_json:
-        continue
-
-    js = entire_json[key]
-    doc_list = []
-    for val in js:
-        if "ENTITY_1" not in val or "ENTITY_2" not in val or "CONNECTION" not in val:
+        if key not in entire_json:
             continue
 
-        n1 = val["ENTITY_1"]
-        n2 = val["ENTITY_2"]
-        c = val["CONNECTION"]
+        js = entire_json[key]
+        doc_list = []
+        for val in js:
+            if "ENTITY_1" not in val or "ENTITY_2" not in val or "CONNECTION" not in val:
+                continue
 
-        if n1 == "" or n2 == "" or c == "":
-            continue
+            n1 = val["ENTITY_1"]
+            n2 = val["ENTITY_2"]
+            c = val["CONNECTION"]
 
-        tup1 = (n1, c, n2)
-        doc_list.append(Document(text=str(tup1)))
+            if n1 == "" or n2 == "" or c == "":
+                continue
 
-    doc_dict[key] = doc_list
+            tup1 = (n1, c, n2)
+            doc_list.append(Document(text=str(tup1)))
+
+        doc_dict[key] = doc_list
 
     from llama_index.core import StorageContext, load_index_from_storage
 
     vector_index = dict()
     for key in docs.keys():
-    if key not in entire_json:
-        continue
+        if key not in entire_json:
+            continue
 
-    if os.path.exists("./vectors/" + key + "_VECTORS"):
-        storage_context = StorageContext.from_defaults(persist_dir="./vectors/" + key + "_VECTORS")
-        index_key = load_index_from_storage(storage_context)
-    else:
-        documents_key = doc_dict[key]
-        index_key = VectorStoreIndex.from_documents(documents_key)
-        index_key.storage_context.persist(persist_dir="./vectors/" + key + "_VECTORS")
+        if os.path.exists("./vectors/" + key + "_VECTORS"):
+            storage_context = StorageContext.from_defaults(persist_dir="./vectors/" + key + "_VECTORS")
+            index_key = load_index_from_storage(storage_context)
+        else:
+            documents_key = doc_dict[key]
+            index_key = VectorStoreIndex.from_documents(documents_key)
+            index_key.storage_context.persist(persist_dir="./vectors/" + key + "_VECTORS")
 
-    vector_index[key] = index_key
+        vector_index[key] = index_key
 
     query_engine_vectors = dict()
 
     for key in docs:
-    if key in vector_index:
-        query_engine_key_vector = vector_index[key].as_query_engine(
-            response_mode="tree_summarize",
-            max_knowledge_sequence=500,
-            similarity_top_k=10,
-            )
+        if key in vector_index:
+            query_engine_key_vector = vector_index[key].as_query_engine(
+                response_mode="tree_summarize",
+                max_knowledge_sequence=500,
+                similarity_top_k=10,
+                )
 
-        query_engine_vectors[key] = query_engine_key_vector
+            query_engine_vectors[key] = query_engine_key_vector
 
     res_str = ""
     for val in queries:
