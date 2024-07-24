@@ -1,2 +1,9 @@
 streamlit
 openai
+langchain
+llama-index
+langchain-experimental
+llama-index-llms-openai
+llama-index-graph-stores-kuzu
+llama-index-graph-stores-neo4j
+llama-index-graph-stores-nebula
