@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Swanson", "CONNECTION": "manufactured", "ENTITY_2": "Beta Carotene"}, {"ENTITY_1": "Swanson", "CONNECTION": "sold", "ENTITY_2": "Vitamin A"}, {"ENTITY_1": "Swanson", "CONNECTION": "contains", "ENTITY_2": "10,000 IU"}, {"ENTITY_1": "Swanson", "CONNECTION": "contains", "ENTITY_2": "250 Soft Gels"}]

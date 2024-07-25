@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Nature's Bounty", "CONNECTION": "contains", "ENTITY_2": "Cranberries"}, {"ENTITY_1": "Nature's Bounty", "CONNECTION": "contains", "ENTITY_2": "Vitamin C"}, {"ENTITY_1": "Cranberries", "CONNECTION": "support", "ENTITY_2": "urinary health"}, {"ENTITY_1": "Vitamin C", "CONNECTION": "supports", "ENTITY_2": "immune function"}]

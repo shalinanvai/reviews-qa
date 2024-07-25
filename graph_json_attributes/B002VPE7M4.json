@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Amazon", "CONNECTION": "misleading description", "ENTITY_2": "packaging"}, {"ENTITY_1": "Amazon", "CONNECTION": "incorrect expiration date", "ENTITY_2": "April 2010"}, {"ENTITY_1": "Amazon", "CONNECTION": "short shelf life", "ENTITY_2": "60 days"}, {"ENTITY_1": "Amazon", "CONNECTION": "low rating", "ENTITY_2": "1.0"}]

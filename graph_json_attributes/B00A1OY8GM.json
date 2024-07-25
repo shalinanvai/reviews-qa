@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Country Life Vitamins", "CONNECTION": "contains", "ENTITY_2": "ashwaghanda"}, {"ENTITY_1": "ashwaghanda", "CONNECTION": "can react with", "ENTITY_2": "prescription meds"}, {"ENTITY_1": "Country Life Vitamins", "CONNECTION": "contains", "ENTITY_2": "many new additives"}]

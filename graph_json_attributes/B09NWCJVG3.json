@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Yolleach", "CONNECTION": "manufactured", "ENTITY_2": "Pill Box"}, {"ENTITY_1": "Pill Box", "CONNECTION": "contains", "ENTITY_2": "wife's hearing aids"}, {"ENTITY_1": "wife's hearing aids", "CONNECTION": "reduces", "ENTITY_2": "time looking for them"}]

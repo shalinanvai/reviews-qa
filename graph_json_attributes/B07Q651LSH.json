@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Euger", "CONNECTION": "manufactured", "ENTITY_2": "Pill Box"}, {"ENTITY_1": "Pill Box", "CONNECTION": "used for", "ENTITY_2": "Medicine"}, {"ENTITY_1": "Medicine", "CONNECTION": "contains", "ENTITY_2": "Vitamins"}, {"ENTITY_1": "Euger", "CONNECTION": "rated", "ENTITY_2": "5.0"}, {"ENTITY_1": "Euger", "CONNECTION": "has", "ENTITY_2": "1 rating"}]

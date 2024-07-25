@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Dynarex", "CONNECTION": "manufactured", "ENTITY_2": "Vitamins A&D Ointment"}, {"ENTITY_1": "Vitamins A&D Ointment", "CONNECTION": "contained in", "ENTITY_2": "4 oz Tube"}, {"ENTITY_1": "4 oz Tube", "CONNECTION": "sold in packs of", "ENTITY_2": "2"}, {"ENTITY_1": "Dynarex", "CONNECTION": "manufacturer", "ENTITY_2": "Dynarex"}]

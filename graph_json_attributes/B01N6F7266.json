@@ -1,0 +1,1 @@
+[{"ENTITY_1": "User", "CONNECTION": "ate", "ENTITY_2": "one pack"}, {"ENTITY_1": "User", "CONNECTION": "opened", "ENTITY_2": "a pack"}, {"ENTITY_1": "pack", "CONNECTION": "looked", "ENTITY_2": "molded"}]
