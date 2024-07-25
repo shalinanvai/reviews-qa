@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Divine Locks", "CONNECTION": "is made by", "ENTITY_2": "So Journey"}, {"ENTITY_1": "So Journey", "CONNECTION": "is the manufacturer of", "ENTITY_2": "Divine Locks"}, {"ENTITY_1": "Divine Locks", "CONNECTION": "is made by", "ENTITY_2": "Inner Beauty"}, {"ENTITY_1": "Inner Beauty", "CONNECTION": "is the manufacturer of", "ENTITY_2": "Divine Locks"}]

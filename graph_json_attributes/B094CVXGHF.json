@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Hitamus Pink Pig Pill Box", "CONNECTION": "has", "ENTITY_2": "faulty clasp"}, {"ENTITY_1": "faulty clasp", "CONNECTION": "affects", "ENTITY_2": "pill containment"}, {"ENTITY_1": "Hitamus Pink Pig Pill Box", "CONNECTION": "has", "ENTITY_2": "negative reviews"}, {"ENTITY_1": "negative reviews", "CONNECTION": "mention", "ENTITY_2": "faulty clasp"}]

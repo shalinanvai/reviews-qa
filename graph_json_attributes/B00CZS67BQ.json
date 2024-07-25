@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Youngevity", "CONNECTION": "manufacturer", "ENTITY_2": "Beyond Tangy Tangerine"}, {"ENTITY_1": "Beyond Tangy Tangerine", "CONNECTION": "item form", "ENTITY_2": "Liquid"}, {"ENTITY_1": "Beyond Tangy Tangerine", "CONNECTION": "average rating", "ENTITY_2": "5.0"}, {"ENTITY_1": "Beyond Tangy Tangerine", "CONNECTION": "number of ratings", "ENTITY_2": "2"}]

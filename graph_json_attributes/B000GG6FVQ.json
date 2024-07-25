@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Nature's Bounty", "CONNECTION": "discontinued", "ENTITY_2": "time release vitamin C"}, {"ENTITY_1": "time release vitamin C", "CONNECTION": "discontinued by", "ENTITY_2": "Nature's Bounty"}, {"ENTITY_1": "Nature's Bounty", "CONNECTION": "switched brands", "ENTITY_2": "time release vitamin C"}]

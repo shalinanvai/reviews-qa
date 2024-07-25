@@ -250,7 +250,7 @@ if num_asins_load and num_asins_retrieve and question:
     count = 0
     entire_json = dict()
     for key in docs:
-        file = "./graph_json/" + key + ".json"
+        file = "./graph_json_attributes/" + key + ".json"
         #if not os.path.exists(file):
             #doc = docs[key]
             #if len(doc.split()) > 10000:

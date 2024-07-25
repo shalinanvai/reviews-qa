@@ -1,0 +1,1 @@
+[{"ENTITY_1": "United Earth", "CONNECTION": "manufacturer", "ENTITY_2": "Spring and Autumn turmeric tablets"}, {"ENTITY_1": "Spring and Autumn turmeric tablets", "CONNECTION": "manufacturer", "ENTITY_2": "United Earth"}, {"ENTITY_1": "Spring and Autumn turmeric tablets", "CONNECTION": "item form", "ENTITY_2": "Tablets"}]

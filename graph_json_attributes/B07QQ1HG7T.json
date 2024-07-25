@@ -1,0 +1,1 @@
+[{"ENTITY_1": "AEXGVMXJXTRIKFXDQF6EMVNDH5UA", "CONNECTION": "rated", "ENTITY_2": "Pill Organizer"}, {"ENTITY_1": "Pill Organizer", "CONNECTION": "has", "ENTITY_2": "Rating 5.0"}, {"ENTITY_1": "Pill Organizer", "CONNECTION": "has", "ENTITY_2": "Number of Ratings 1"}, {"ENTITY_1": "Pill Organizer", "CONNECTION": "manufactured by", "ENTITY_2": "FEDDIY"}]

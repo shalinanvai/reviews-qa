@@ -1,0 +1,1 @@
+[{"ENTITY_1": "product", "CONNECTION": "is", "ENTITY_2": "alternative"}, {"ENTITY_1": "product", "CONNECTION": "does not contain", "ENTITY_2": "Stanozolol"}, {"ENTITY_1": "product", "CONNECTION": "came on", "ENTITY_2": "time"}, {"ENTITY_1": "product", "CONNECTION": "gave", "ENTITY_2": "results"}, {"ENTITY_1": "dieting", "CONNECTION": "helped", "ENTITY_2": "user"}]

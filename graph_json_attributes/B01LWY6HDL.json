@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Mason Vitamins", "CONNECTION": "manufactured", "ENTITY_2": "prune senna stimulant herbal laxative capsules"}, {"ENTITY_1": "prune senna stimulant herbal laxative capsules", "CONNECTION": "contains", "ENTITY_2": "senna"}]

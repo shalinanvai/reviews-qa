@@ -1,0 +1,1 @@
+[{"ENTITY_1": "MEACOLIA", "CONNECTION": "has", "ENTITY_2": "Travel Pill Box Case"}, {"ENTITY_1": "Travel Pill Box Case", "CONNECTION": "is for", "ENTITY_2": "Purse Pockets"}, {"ENTITY_1": "Purse Pockets", "CONNECTION": "holds", "ENTITY_2": "Vitamins"}, {"ENTITY_1": "Vitamins", "CONNECTION": "are held by", "ENTITY_2": "MEACOLIA"}]

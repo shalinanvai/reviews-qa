@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Amazon", "CONNECTION": "listed at", "ENTITY_2": "competitive price"}, {"ENTITY_1": "Amazon", "CONNECTION": "has", "ENTITY_2": "listed"}, {"ENTITY_1": "Amazon", "CONNECTION": "has", "ENTITY_2": "market"}, {"ENTITY_1": "Amazon", "CONNECTION": "has", "ENTITY_2": "product"}, {"ENTITY_1": "Amazon", "CONNECTION": "has", "ENTITY_2": "price"}]

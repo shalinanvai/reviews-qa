@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Pill Box", "CONNECTION": "has", "ENTITY_2": "Pretty Design"}, {"ENTITY_1": "Pill Box", "CONNECTION": "held", "ENTITY_2": "Good Amount of Smaller Pills"}, {"ENTITY_1": "Pill Box", "CONNECTION": "popped open", "ENTITY_2": "Purse"}, {"ENTITY_1": "Pills", "CONNECTION": "got shuffled", "ENTITY_2": "Damaged"}]

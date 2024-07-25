@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Merry Clinic", "CONNECTION": "produces", "ENTITY_2": "Skin Detox Formula"}, {"ENTITY_1": "Skin Detox Formula", "CONNECTION": "contains", "ENTITY_2": "soy"}, {"ENTITY_1": "soy", "CONNECTION": "causes", "ENTITY_2": "allergic reaction"}, {"ENTITY_1": "allergic reaction", "CONNECTION": "affects", "ENTITY_2": "skin"}]

@@ -1,0 +1,1 @@
+[{"ENTITY_1": "pill grinder", "CONNECTION": "is", "ENTITY_2": "worst"}, {"ENTITY_1": "cutter", "CONNECTION": "doesn't secure", "ENTITY_2": "pills"}, {"ENTITY_1": "pills", "CONNECTION": "move", "ENTITY_2": "when cut"}, {"ENTITY_1": "grinder", "CONNECTION": "is weak", "ENTITY_2": "3 or 4 times to grind"}]

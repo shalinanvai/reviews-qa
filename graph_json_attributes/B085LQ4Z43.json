@@ -1,0 +1,1 @@
+[{"ENTITY_1": "doctor", "CONNECTION": "recommended", "ENTITY_2": "supplement"}, {"ENTITY_1": "supplement", "CONNECTION": "bought", "ENTITY_2": "product"}, {"ENTITY_1": "product", "CONNECTION": "working", "ENTITY_2": "user"}, {"ENTITY_1": "user", "CONNECTION": "buying", "ENTITY_2": "more"}]

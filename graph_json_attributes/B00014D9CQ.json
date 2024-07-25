@@ -1,0 +1,1 @@
+[{"ENTITY_1": "The Vitamin Shoppe", "CONNECTION": "manufactures", "ENTITY_2": "Eyebright Capsules"}, {"ENTITY_1": "Eyebright Capsules", "CONNECTION": "helps", "ENTITY_2": "eyes"}, {"ENTITY_1": "Eyebright Capsules", "CONNECTION": "contains", "ENTITY_2": "RICE FLOUR AND GELATIN"}]

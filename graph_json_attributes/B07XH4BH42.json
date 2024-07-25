@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Hampshire Labs", "CONNECTION": "is manufacturer of", "ENTITY_2": "Vitamin D"}, {"ENTITY_1": "Vitamin D", "CONNECTION": "is supplied in", "ENTITY_2": "capsule form"}, {"ENTITY_1": "Vitamin D", "CONNECTION": "is supplied in", "ENTITY_2": "60 day supply"}, {"ENTITY_1": "Vitamin D", "CONNECTION": "is supplied in", "ENTITY_2": "25 mcg"}]

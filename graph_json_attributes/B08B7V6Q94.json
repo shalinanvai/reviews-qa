@@ -1,0 +1,1 @@
+[{"ENTITY_1": "Amazon", "CONNECTION": "sells", "ENTITY_2": "Pill Cutter"}, {"ENTITY_1": "Pill Cutter", "CONNECTION": "is", "ENTITY_2": "Barhon"}, {"ENTITY_1": "Barhon", "CONNECTION": "manufactures", "ENTITY_2": "Pill Cutter"}, {"ENTITY_1": "Pill Cutter", "CONNECTION": "has", "ENTITY_2": "Sharp Blade"}, {"ENTITY_1": "Pill Cutter", "CONNECTION": "is", "ENTITY_2": "Blue"}]

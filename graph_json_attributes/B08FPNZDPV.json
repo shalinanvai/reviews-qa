@@ -1,0 +1,1 @@
+[{"ENTITY_1": "AEDY6MIGRSHJTZHUOKGY27YLQMQQ", "CONNECTION": "rated", "ENTITY_2": "B08FPNZDPV"}, {"ENTITY_1": "B08FPNZDPV", "CONNECTION": "has", "ENTITY_2": "Average Rating"}, {"ENTITY_1": "B08FPNZDPV", "CONNECTION": "has", "ENTITY_2": "Number of Ratings"}, {"ENTITY_1": "B08FPNZDPV", "CONNECTION": "manufactured by", "ENTITY_2": "Zurich Research"}]

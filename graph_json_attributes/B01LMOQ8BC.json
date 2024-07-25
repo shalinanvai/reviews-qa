@@ -1,0 +1,1 @@
+[{"ENTITY_1": "meds", "CONNECTION": "make", "ENTITY_2": "mouth dry"}, {"ENTITY_1": "drops", "CONNECTION": "taste", "ENTITY_2": "good"}, {"ENTITY_1": "drops", "CONNECTION": "have", "ENTITY_2": "no sugar"}, {"ENTITY_1": "drops", "CONNECTION": "give", "ENTITY_2": "extra Vitamin C"}, {"ENTITY_1": "drops", "CONNECTION": "are", "ENTITY_2": "good"}]
